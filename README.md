@@ -1,9 +1,19 @@
 # AI Tool
-Summarizes + answers specific questions on scientific publications (~2500-3000 articles).
-Returns pre-defined excel document with Q/A. 
+That summarizes + answers specific questions on scientific publications (~2500-3000 articles in total).
+There is a question of optimization, to : 
+    - reduce tokens used
+    - having clear and better responses
+    - lowering the "halucinations" rate
+    - GETTING THE MOST FROM IT
+
+Returns pre-defined excel document with Q/A columns.
+Used in a pharma research lab at CHU Sainte-Justine, Montreal to rework their website.
+
+# Motivation
+This is a work for a research lab at a Montreal hospital (the most popular if you ask me). I am happy to help them achieve their goal.
 
 ## It is just a gpt-4 wrapper
-Used in a lab at CHU Sainte-Justine, Montreal to rework their website.
-Studying its behavior and analyzing the "hallucinations" that it give on answers (article not yet released)
+I am no llm dev (yet : 10/07/2025), but I'm leaning towards that path more and more.
+I do love research and might get a paper out of this project.
 
 https://impactpharmacie.org/index.php?p=greeter.php
