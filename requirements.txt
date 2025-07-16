@@ -1,3 +1,8 @@
 openai
-load_dotenv
 PyPDF2
+pandas
+python-dotenv
+tenacity
+tqdm
+openpyxl
+tiktoken

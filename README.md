@@ -17,3 +17,18 @@ I am no llm dev (yet : 10/07/2025), but I'm leaning towards that path more and m
 I do love research and might get a paper out of this project.
 
 https://impactpharmacie.org/index.php?p=greeter.php
+
+# APPROACH
+```
+for pdf in pdf_files:
+    text = PDFLoader.extract_text(pdf)
+    responses = {}
+
+    for category in categories:
+        prompt = PromptManager.build_prompt(category, text)
+        answer_raw = APIManager.ask(prompt)
+        parsed = ResponseParser.parse(answer_raw)
+        responses.update(parsed)
+
+    ExcelWriter.insert_row(pdf_name, responses)
+```
