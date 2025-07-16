@@ -16,8 +16,8 @@
     - Hôpital
     - Clinique externe
     - Pharmacie communautaire
-    - Autre
     - Plusieurs des options ci-dessus (milieu mixte)
+    - Autre
 
 - id: Q4
   category: Informations générales
@@ -73,12 +73,19 @@
 - id: Q11
   category: Méthodologie
   question: Est-ce qu’il y a un groupe contrôle ?
-  type: text
+  type: choice
+  options:
+    - Oui
+    - Non
 
 - id: Q12
   category: Méthodologie
   question: Comment sont répartis les participants ?
-  type: text
+  type: choice
+  options:
+    - Aléatoire
+    - Non aléatoire
+    - Quasi-aléatoire
 
 - id: Q13
   category: Méthodologie
@@ -101,7 +108,7 @@
 
 - id: Q16
   category: Paramètres
-  question: Décrire l’outcome (le paramètre) principal ?
+  question: Décrire le outcome (le paramètre) principal ?
   type: text
 
 - id: Q17
