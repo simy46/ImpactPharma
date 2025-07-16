@@ -33,6 +33,7 @@ class OpenAIClient:
         try:
 
             tokens_used = count_tokens(system_prompt, user_prompt) + self.max_tokens # dynamic token count to avoid 429/ 500 errors
+            print(f"[Token Count] Estimated tokens for request: {tokens_used}")
             wait_for_token_quota(tokens_used)
 
             response = client.chat.completions.create(

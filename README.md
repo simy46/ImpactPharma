@@ -18,7 +18,7 @@ I do love research and might get a paper out of this project.
 
 https://impactpharmacie.org/index.php?p=greeter.php
 
-# APPROACH
+# Approach
 ```
 for pdf in pdf_files:
     text = PDFLoader.extract_text(pdf)
