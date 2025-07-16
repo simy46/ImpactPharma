@@ -1,9 +1,9 @@
+pyyaml
 openai
-PyPDF2
-pandas
-python-dotenv
-tenacity
 tqdm
+tenacity
+python-dotenv
+pandas
 openpyxl
 tiktoken
-PyYAML
+PyPDF2
