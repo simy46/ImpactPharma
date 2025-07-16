@@ -29,8 +29,8 @@ class PromptManager:
 QUESTIONS :
 {formatted.strip()}
 
-Réponds uniquement à ces questions, au format JSON : {{ id: réponse }}.
-Si l'information est absente : "Non précisé dans l'article".
+Réponds uniquement au format JSON brut :  {{ id: réponse }}. 
+N'utilise aucune balise de type ```json ou markdown.
 """
 
     @staticmethod
