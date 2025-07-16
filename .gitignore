@@ -1,3 +1,4 @@
 .env
 venv
 v1
+/core/__pycache__
