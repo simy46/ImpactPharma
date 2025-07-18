@@ -40,6 +40,8 @@ cd ImpactPharma
 
 Place all the PDF files you want to analyze inside the `/pdfs` folder of the project.
 
+These are the pdfs that will be used : Chose the ones that YOU want.
+
 Example: `ImpactPharma/pdfs/*.pdf`
 
 ---
@@ -72,6 +74,7 @@ After the script finishes, results will be saved in:
 
 - Don't edit the Excel file while the script is running.
 - If you have questions or errors, share the log file with the developer.
+- It will always write inside `/outputs/resultats.xlsx`, if you want to reset copy `/outputs/template_resultats.xlsx`, move the old `resultats.xlsx` and rename the copy `resultats.xlsx` [sorry will simplify this]
 
 
 # Motivation
