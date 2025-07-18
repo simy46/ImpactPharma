@@ -108,18 +108,18 @@
 
 - id: Q16
   category: Paramètres
-  question: Décrire le outcome (le paramètre) principal ?
-  type: text
+  question: Décrire le ou les outcome(s) principaux ?
+  type: array
 
 - id: Q17
   category: Paramètres
-  question: Quel sont les résultats du paramètre principal ? Ces résultats sont-ils statistiquement significatifs ?
-  type: text
+  question: Quels sont les résultats du ou des paramètres principaux ? Ces résultats sont-ils statistiquement significatifs ?
+  type: array
 
 - id: Q18
   category: Paramètres
-  question: Si présents, décrire le ou les outcome(s) secondaire(s) un par un (description, résultats, et significativité statistique)
-  type: text
+  question: Décrire le ou les outcome(s) secondaires un par un (description, résultats, et significativité statistique)
+  type: array
 
 - id: Q19
   category: Intervention pharmaceutique

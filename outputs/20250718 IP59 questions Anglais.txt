@@ -1,0 +1,147 @@
+- id: Q1
+  category: General Information
+  question: What is the year of publication of the study?
+  type: date
+
+- id: Q2
+  category: General Information
+  question: From which country does the study originate?
+  type: text
+
+- id: Q3
+  category: General Information
+  question: In what type of healthcare setting was the study conducted?
+  type: choice
+  options:
+    - Hospital
+    - Outpatient clinic
+    - Community pharmacy
+    - Mixed (several of the above)
+    - Other
+
+- id: Q4
+  category: General Information
+  question: Is the study single-center or multicenter?
+  type: choice
+  options:
+    - Single-center
+    - Multicenter
+    - Not specified
+
+- id: Q5
+  category: General Information
+  question: What are the start and end dates of the study, and what is its duration?
+  type: text
+
+- id: Q6
+  category: General Information
+  question: What is the study design?
+  type: choice
+  options:
+    - Randomized controlled trial
+    - Cohort study
+    - Before-after study
+    - Observational study (no intervention)
+    - Qualitative study
+    - Survey
+    - Expert opinion
+
+- id: Q7
+  category: Methodology
+  question: What is the temporality of the study?
+  type: choice
+  options:
+    - Retrospective
+    - Prospective
+    - Cross-sectional
+
+- id: Q8
+  category: Methodology
+  question: What is the primary objective of the study?
+  type: text
+
+- id: Q9
+  category: Methodology
+  question: What are the secondary objectives (if any)?
+  type: text
+
+- id: Q10
+  category: Methodology
+  question: How many groups are being studied?
+  type: number
+
+- id: Q11
+  category: Methodology
+  question: Is there a control group?
+  type: choice
+  options:
+    - Yes
+    - No
+
+- id: Q12
+  category: Methodology
+  question: How are the participants allocated?
+  type: choice
+  options:
+    - Random
+    - Non-random
+    - Quasi-random
+
+- id: Q13
+  category: Methodology
+  question: What are the inclusion criteria for participants?
+  type: text
+
+- id: Q14
+  category: Methodology
+  question: What are the exclusion criteria for participants?
+  type: text
+
+- id: Q15
+  category: Methodology
+  question: What is the blinding method used in the study?
+  type: choice
+  options:
+    - Single-blind
+    - Double-blind
+    - No blinding
+
+- id: Q16
+  category: Outcomes
+  question: Describe the primary outcome.
+  type: text
+
+- id: Q17
+  category: Outcomes
+  question: What are the results for the primary outcome? Are these results statistically significant?
+  type: text
+
+- id: Q18
+  category: Outcomes
+  question: If applicable, describe the secondary outcome(s) one by one (description, results, and statistical significance).
+  type: text
+
+- id: Q19
+  category: Pharmaceutical Intervention
+  question: Describe the pharmaceutical intervention (role of the pharmacist).
+  type: text
+
+- id: Q20
+  category: Pharmaceutical Intervention
+  question: Where does the pharmaceutical intervention take place?
+  type: text
+
+- id: Q21
+  category: Pharmaceutical Intervention
+  question: Who are the stakeholders involved in the intervention?
+  type: text
+
+- id: Q22
+  category: Pharmaceutical Intervention
+  question: What is the duration of the intervention?
+  type: text
+
+- id: Q23
+  category: Limitations
+  question: What are the limitations (weaknesses) of the study as identified by the authors?
+  type: text

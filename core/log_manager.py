@@ -29,7 +29,6 @@ class LogManager:
             self.logger.addHandler(stream_handler)
 
     def write(self, type_: str, message: str) -> None:
-        print(f"[{type_.upper()}] {message}")
         level_map = {
             "info": self.logger.info,
             "success": self.logger.info,

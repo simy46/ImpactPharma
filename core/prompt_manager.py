@@ -17,11 +17,14 @@ class PromptManager:
 
         formatted = ""
         for q in questions:
+            q_type = q.get("type", "")
+            type_hint = f" [Type attendu : {q_type}]" if q_type and q_type != "text" else ""
+            
             if "options" in q:
                 opts = ", ".join(q["options"])
-                formatted += f'{q["id"]}. {q["question"]} (Choisir parmi : {opts})\n'
+                formatted += f'{q["id"]}. {q["question"]} (Choisir parmi : {opts}){type_hint}\n'
             else:
-                formatted += f'{q["id"]}. {q["question"]}\n'
+                formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
 
         return f"""TEXTE DE L'ARTICLE :
 {article_text.strip()}
@@ -47,6 +50,7 @@ INSTRUCTIONS :
 - Format de réponse : JSON valide
 - Clés = ID des questions (ex: Q1, Q2, ...)
 - Valeurs = réponses courtes, précises, basées uniquement sur le texte
+- Commence directement avec l'information pertinente, sans répéter ou reformuler la question.
 - Si l'information est absente : "Non précisé dans l'article"
 - Si une question a des choix (options), tu dois répondre mot pour mot avec l'une des options proposées
 """.strip()

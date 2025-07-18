@@ -37,6 +37,7 @@ for pdf_path in pdf_files:
             system_prompt = pm.get_system_prompt()
             raw = api.ask(system_prompt, user_prompt)
             parsed = rp.parse(raw)
+            lg.write("info", f"Réponses pour catégorie '{category}' : {parsed}")
             responses.update(parsed)
         except Exception as e:
             lg.write("error", f"Échec pour catégorie '{category}' dans {pdf_name} : {e}")

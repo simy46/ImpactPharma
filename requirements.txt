@@ -6,4 +6,4 @@ python-dotenv
 pandas
 openpyxl
 tiktoken
-PyPDF2
+pdfplumber
