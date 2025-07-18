@@ -2,8 +2,11 @@ from typing import List, Dict
 import yaml
 
 class PromptManager:
-    def __init__(self, schema_path="config/questions.yaml"):
-        with open(schema_path, "r", encoding="utf-8") as f:
+    def __init__(self, lang):
+        self.lang = lang
+        self.schema_path = "config/questions.yaml" if lang == "fr" else "config/questions.en.yaml"
+
+        with open(self.schema_path, "r", encoding="utf-8") as f:
             self.questions: List[Dict] = yaml.safe_load(f)
 
     def get_categories(self) -> List[str]:
@@ -18,27 +21,37 @@ class PromptManager:
         formatted = ""
         for q in questions:
             q_type = q.get("type", "")
-            type_hint = f" [Type attendu : {q_type}]" if q_type and q_type != "text" else ""
-            
-            if "options" in q:
-                opts = ", ".join(q["options"])
-                formatted += f'{q["id"]}. {q["question"]} (Choisir parmi : {opts}){type_hint}\n'
+            if self.lang == "fr":
+                type_hint = f" [Type attendu : {q_type}]" if q_type and q_type != "text" else ""
+                if "options" in q:
+                    opts = ", ".join(q["options"])
+                    formatted += f'{q["id"]}. {q["question"]} (Choisir parmi : {opts}){type_hint}\n'
+                else:
+                    formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
             else:
-                formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
+                type_hint = f" [Expected type: {q_type}]" if q_type and q_type != "text" else ""
+                if "options" in q:
+                    opts = ", ".join(q["options"])
+                    formatted += f'{q["id"]}. {q["question"]} (Choose from: {opts}){type_hint}\n'
+                else:
+                    formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
 
-        return f"""TEXTE DE L'ARTICLE :
+        prefix = "TEXTE DE L'ARTICLE" if self.lang == "fr" else "ARTICLE TEXT"
+        instruction = "Réponds uniquement au format JSON brut :  { id: réponse }." if self.lang == "fr" else "Respond only in raw JSON format: { id: answer }."
+
+        return f"""{prefix} :
 {article_text.strip()}
 
 QUESTIONS :
 {formatted.strip()}
 
-Réponds uniquement au format JSON brut :  {{ id: réponse }}. 
-N'utilise aucune balise de type ```json ou markdown.
+{instruction}
+Do not use ```json or markdown formatting.
 """
 
-    @staticmethod
-    def get_system_prompt() -> str:
-        return """
+    def get_system_prompt(self) -> str:
+        if self.lang == "fr":
+            return """
 Tu es un expert en lecture critique d’articles scientifiques médicaux.
 
 Ta tâche :
@@ -53,4 +66,21 @@ INSTRUCTIONS :
 - Commence directement avec l'information pertinente, sans répéter ou reformuler la question.
 - Si l'information est absente : "Non précisé dans l'article"
 - Si une question a des choix (options), tu dois répondre mot pour mot avec l'une des options proposées
+""".strip()
+        else:
+            return """
+You are an expert in critical appraisal of medical scientific articles.
+
+Your task:
+- Read the provided text
+- Only answer the questions asked
+- Do not extrapolate or make any assumptions
+
+INSTRUCTIONS:
+- Response format: Valid JSON
+- Keys = Question IDs (e.g., Q1, Q2, ...) 
+- Values = Short, precise answers based only on the text
+- Start directly with the answer, do not repeat or rephrase the question
+- If the information is missing: "Not specified in the article"
+- If a question has predefined options, you must reply using exactly one of the given options (word-for-word)
 """.strip()
