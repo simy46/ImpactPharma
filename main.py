@@ -42,7 +42,6 @@ for pdf_path in pdf_files:
             lg.write("info", f"Réponse brute FR : {raw_fr}")
             parsed_fr = rp.parse(raw_fr)
             responses_fr.update(parsed_fr)
-            lg.write("info", f"Réponses parsés FR : {parsed_fr}")
         except Exception as e:
             lg.write("error", f"[FR] Erreur dans la catégorie '{category}' pour {pdf_name} : {e}")
 
@@ -63,7 +62,6 @@ for pdf_path in pdf_files:
             lg.write("info", f"Raw response EN: {raw_en}")
             parsed_en = rp.parse(raw_en)
             responses_en.update(parsed_en)
-            lg.write("info", f"Parsed Responses EN: {parsed_en}")
         except Exception as e:
             lg.write("error", f"[EN] Error in category '{category}' for {pdf_name} : {e}")
 
