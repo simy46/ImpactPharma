@@ -4,3 +4,4 @@ v1
 /core/__pycache__
 tpm-res
 tmp-res
+logs/*.log
