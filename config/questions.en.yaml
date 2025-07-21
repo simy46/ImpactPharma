@@ -144,4 +144,4 @@
 - id: Q23
   category: Limitations
   question: What are the limitations (weaknesses) of the study as identified by the authors?
-  type: text
+  type: array

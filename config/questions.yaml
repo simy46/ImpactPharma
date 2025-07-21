@@ -6,12 +6,12 @@
 - id: Q2
   category: Informations générales
   question: De quel pays provient l’étude ?
-  type: text
+  type: texte
 
 - id: Q3
   category: Informations générales
   question: Dans quel type de structure de soins l’étude a-t-elle été réalisée ?
-  type: choice
+  type: choix
   options:
     - Hôpital
     - Clinique externe
@@ -22,7 +22,7 @@
 - id: Q4
   category: Informations générales
   question: Est-ce une étude monocentrique ou multicentrique ?
-  type: choice
+  type: choix
   options:
     - Monocentrique
     - Multicentrique
@@ -31,12 +31,12 @@
 - id: Q5
   category: Informations générales
   question: Quelles sont les dates de début et de fin de l’étude, et quelle est sa durée ?
-  type: text
+  type: texte
 
 - id: Q6
   category: Informations générales
   question: Quel est le devis (design) d’étude ?
-  type: choice
+  type: choix
   options:
     - Essai contrôlé randomisé
     - Étude de cohorte
@@ -49,7 +49,7 @@
 - id: Q7
   category: Méthodologie
   question: Quelle est la temporalité de l’étude ?
-  type: choice
+  type: choix
   options:
     - Rétrospective
     - Prospective
@@ -58,22 +58,22 @@
 - id: Q8
   category: Méthodologie
   question: Quel est l’objectif principal (primaire) de l’étude ?
-  type: text
+  type: texte
 
 - id: Q9
   category: Méthodologie
   question: Quels sont les objectifs secondaires (si présents) ?
-  type: text
+  type: texte
 
 - id: Q10
   category: Méthodologie
   question: Combien de groupes sont à l’étude ?
-  type: number
+  type: nombre
 
 - id: Q11
   category: Méthodologie
   question: Est-ce qu’il y a un groupe contrôle ?
-  type: choice
+  type: choix
   options:
     - Oui
     - Non
@@ -81,7 +81,7 @@
 - id: Q12
   category: Méthodologie
   question: Comment sont répartis les participants ?
-  type: choice
+  type: choix
   options:
     - Aléatoire
     - Non aléatoire
@@ -90,17 +90,17 @@
 - id: Q13
   category: Méthodologie
   question: Quels sont les critères d’inclusion des participants ?
-  type: text
+  type: texte
 
 - id: Q14
   category: Méthodologie
   question: Quels sont les critères d’exclusion des participants ?
-  type: text
+  type: texte
 
 - id: Q15
   category: Méthodologie
   question: Comment se déroule l’étude ?
-  type: choice
+  type: choix
   options:
     - Insu simple (simple aveugle)
     - Insu double
@@ -109,39 +109,39 @@
 - id: Q16
   category: Paramètres
   question: Décrire le ou les outcome(s) principaux ?
-  type: array
+  type: liste
 
 - id: Q17
   category: Paramètres
   question: Quels sont les résultats du ou des paramètres principaux ? Ces résultats sont-ils statistiquement significatifs ?
-  type: array
+  type: liste
 
 - id: Q18
   category: Paramètres
   question: Décrire le ou les outcome(s) secondaires un par un (description, résultats, et significativité statistique)
-  type: array
+  type: liste
 
 - id: Q19
   category: Intervention pharmaceutique
   question: Décrire l’intervention pharmaceutique (le rôle du pharmacien)
-  type: text
+  type: texte
 
 - id: Q20
   category: Intervention pharmaceutique
   question: Où se déroule l’intervention pharmaceutique ?
-  type: text
+  type: texte
 
 - id: Q21
   category: Intervention pharmaceutique
   question: Quels sont les acteurs de l’intervention ?
-  type: text
+  type: texte
 
 - id: Q22
   category: Intervention pharmaceutique
   question: Quelle est la durée de l’intervention ?
-  type: text
+  type: texte
 
 - id: Q23
   category: Limites
   question: Quelles sont les limites (faiblesses) de l’étude identifiées par les auteurs ?
-  type: text
+  type: liste

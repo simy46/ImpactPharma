@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from core.pdf_loader import PDFLoader
 from core.prompt_manager import PromptManager
@@ -20,6 +21,8 @@ pdf_files = [os.path.join(PDF_DIR, f) for f in os.listdir(PDF_DIR) if f.endswith
 categories_fr = pm_fr.get_categories()
 categories_en = pm_en.get_categories()
 
+
+lg.write("info", f"Début du traitement : {datetime.now().strftime('%Y-%m-%d_%H h %M min-%S secondes')}")
 for pdf_path in pdf_files:
     pdf_name = os.path.splitext(os.path.basename(pdf_path))[0]
     lg.write("", f"\n\n------ {pdf_name} ------")
@@ -71,4 +74,8 @@ for pdf_path in pdf_files:
     except Exception as e:
         lg.write("error", f"[EN] Excel write failed for {pdf_name} : {e}")
 
-lg.write("success", "\nTous les fichiers ont été traités.")
+lg.write("success", f"\nTous les fichiers ont été traités. {datetime.now().strftime('%Y-%m-%d_%H h %M min-%S secondes')}")
+
+
+#! limite en array / point
+#!
