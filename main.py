@@ -8,14 +8,14 @@ from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 
 PDF_DIR = "pdfs"
-EXCEL_TEMPLATE_PATH = "outputs/resultats.xlsx"
+TEMPLATE_PATH = "outputs/template_resultats.xlsx"
 
 lg = LogManager()
 pm_fr = PromptManager("fr")
 pm_en = PromptManager("en")
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
-writer = ExcelWriter(EXCEL_TEMPLATE_PATH)
+writer = ExcelWriter(template_path=TEMPLATE_PATH)
 
 pdf_files = [os.path.join(PDF_DIR, f) for f in os.listdir(PDF_DIR) if f.endswith(".pdf")]
 categories_fr = pm_fr.get_categories()
