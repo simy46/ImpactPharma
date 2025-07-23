@@ -125,6 +125,11 @@
 - id: Q19
   category: Intervention pharmaceutique
   question: Décrire l’intervention pharmaceutique (le rôle du pharmacien, décrire chacune de ses actions en débutant par un verbe)
+  elements:
+    - Comment l’intervention est-elle mise en œuvre ?
+    - Quelles actions concrètes sont menées ?
+    - Dans quelles actions ou processus le pharmacien est-il impliqué ?
+    - Chaque action doit commencer par un verbe.
   type: text
 
 - id: Q20

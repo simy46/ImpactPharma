@@ -124,7 +124,12 @@
 
 - id: Q19
   category: Pharmaceutical Intervention
-  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of his actions starting with a verb)
+  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of their actions starting with a verb)
+  elements:
+    - How is the intervention implemented?
+    - What concrete actions are carried out?
+    - In which actions or processes is the pharmacist involved?
+    - Each action must begin with a verb.
   type: text
 
 - id: Q20
