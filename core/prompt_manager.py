@@ -21,6 +21,7 @@ class PromptManager:
         formatted = ""
         for q in questions:
             q_type = q.get("type", "")
+            elements = q.get("elements", [])
             if self.lang == "fr":
                 type_hint = f" [Type attendu : {q_type}]" if q_type and q_type != "text" else ""
                 if "options" in q:
@@ -35,9 +36,13 @@ class PromptManager:
                     formatted += f'{q["id"]}. {q["question"]} (Choose from: {opts}){type_hint}\n'
                 else:
                     formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
+                    if elements:
+                        print(f"Elements for question {q['id']}: {elements}")
+                        for e in elements:
+                            formatted += f'   - {e.strip()}\n'
 
         prefix = "TEXTE DE L'ARTICLE" if self.lang == "fr" else "ARTICLE TEXT"
-        instruction = "Réponds uniquement au format JSON brut :  { id: réponse }." if self.lang == "fr" else "Respond only in raw JSON format: { id: answer }."
+        instruction = "Réponds uniquement au format JSON brut :  { id1: réponse, id2: réponse, ...}." if self.lang == "fr" else "Respond only in raw JSON format: { id1: answer, id2: answer, ...}."
 
         return f"""{prefix} :
 {article_text.strip()}
@@ -60,7 +65,7 @@ Ta tâche :
 - Ne pas extrapoler, ne faire aucune supposition
 
 INSTRUCTIONS :
-- Format de réponse : JSON valide
+- Format de réponse : un seul JSON valide
 - Clés = ID des questions (ex: Q1, Q2, ...)
 - Valeurs = réponses courtes, précises, basées uniquement sur le texte
 - Commence directement avec l'information pertinente, sans répéter ou reformuler la question.
@@ -77,7 +82,7 @@ Your task:
 - Do not extrapolate or make any assumptions
 
 INSTRUCTIONS:
-- Response format: Valid JSON
+- Response format: only one Valid JSON
 - Keys = Question IDs (e.g., Q1, Q2, ...) 
 - Values = Short, precise answers based only on the text
 - Start directly with the answer, do not repeat or rephrase the question
