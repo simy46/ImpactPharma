@@ -37,7 +37,6 @@ class PromptManager:
                 else:
                     formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
                     if elements:
-                        print(f"Elements for question {q['id']}: {elements}")
                         for e in elements:
                             formatted += f'   - {e.strip()}\n'
 
