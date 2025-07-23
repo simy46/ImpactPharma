@@ -76,8 +76,8 @@
   question: Is there a control group?
   type: choice
   options:
-    - Yes
-    - No
+    - "Yes"
+    - "No"
 
 - id: Q12
   category: Methodology
