@@ -139,7 +139,7 @@
 
 - id: Q21
   category: Intervention pharmaceutique
-  question: Quels sont les acteurs de l’intervention ? (exemple : infirmières, médecins spécialistes, techniciens en pharmacie, pharmaciens communautaires, pharmaciens cliniciens, etc)
+  question: Quels sont les acteurs de l’intervention ? (exemple ':' infirmières, médecins spécialistes, techniciens en pharmacie, pharmaciens communautaires, pharmaciens cliniciens, etc)
   type: text
 
 - id: Q22

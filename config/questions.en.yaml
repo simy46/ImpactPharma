@@ -139,7 +139,7 @@
 
 - id: Q21
   category: Pharmaceutical Intervention
-  question: Who are the stakeholders involved in the intervention? (example: nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
+  question: Who are the stakeholders involved in the intervention? (example ':' nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
   type: text
 
 - id: Q22
