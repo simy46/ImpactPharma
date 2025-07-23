@@ -6,12 +6,12 @@
 - id: Q2
   category: Informations générales
   question: De quel pays provient l’étude ?
-  type: texte
+  type: text
 
 - id: Q3
   category: Informations générales
   question: Dans quel type de structure de soins l’étude a-t-elle été réalisée ?
-  type: choix
+  type: choice
   options:
     - Hôpital
     - Clinique externe
@@ -22,7 +22,7 @@
 - id: Q4
   category: Informations générales
   question: Est-ce une étude monocentrique ou multicentrique ?
-  type: choix
+  type: choice
   options:
     - Monocentrique
     - Multicentrique
@@ -31,12 +31,12 @@
 - id: Q5
   category: Informations générales
   question: Quelles sont les dates de début et de fin de l’étude, et quelle est sa durée ?
-  type: texte
+  type: text
 
 - id: Q6
   category: Informations générales
   question: Quel est le devis (design) d’étude ?
-  type: choix
+  type: choice
   options:
     - Essai contrôlé randomisé
     - Étude de cohorte
@@ -45,11 +45,12 @@
     - Étude qualitative
     - Enquête
     - Avis d’expert
+    - Autre
 
 - id: Q7
   category: Méthodologie
   question: Quelle est la temporalité de l’étude ?
-  type: choix
+  type: choice
   options:
     - Rétrospective
     - Prospective
@@ -58,22 +59,22 @@
 - id: Q8
   category: Méthodologie
   question: Quel est l’objectif principal (primaire) de l’étude ?
-  type: texte
+  type: text
 
 - id: Q9
   category: Méthodologie
-  question: Quels sont les objectifs secondaires (si présents) ?
-  type: texte
+  question: Quels sont les objectifs secondaires (si clairement cités dans le texte) ?
+  type: text
 
 - id: Q10
   category: Méthodologie
   question: Combien de groupes sont à l’étude ?
-  type: nombre
+  type: number
 
 - id: Q11
   category: Méthodologie
   question: Est-ce qu’il y a un groupe contrôle ?
-  type: choix
+  type: choice
   options:
     - Oui
     - Non
@@ -81,7 +82,7 @@
 - id: Q12
   category: Méthodologie
   question: Comment sont répartis les participants ?
-  type: choix
+  type: choice
   options:
     - Aléatoire
     - Non aléatoire
@@ -90,58 +91,58 @@
 - id: Q13
   category: Méthodologie
   question: Quels sont les critères d’inclusion des participants ?
-  type: texte
+  type: text
 
 - id: Q14
   category: Méthodologie
   question: Quels sont les critères d’exclusion des participants ?
-  type: texte
+  type: text
 
 - id: Q15
   category: Méthodologie
   question: Comment se déroule l’étude ?
-  type: choix
+  type: choice
   options:
     - Insu simple (simple aveugle)
     - Insu double
     - Aucun insu
 
 - id: Q16
-  category: Paramètres
-  question: Décrire le ou les outcome(s) principaux ?
-  type: liste
+  category: Outcomes
+  question: Décrire le outcome (le paramètre) principal ?
+  type: text
 
 - id: Q17
-  category: Paramètres
-  question: Quels sont les résultats du ou des paramètres principaux ? Ces résultats sont-ils statistiquement significatifs ?
-  type: liste
+  category: Outcomes
+  question: Quel sont les résultats du outcome principal ? Ces résultats sont-ils statistiquement significatifs ?
+  type: text
 
 - id: Q18
-  category: Paramètres
-  question: Décrire le ou les outcome(s) secondaires un par un (description, résultats, et significativité statistique)
-  type: liste
+  category: Outcomes
+  question: Si présents, décrire le ou les outcome(s) secondaire(s) un par un (description, résultats, et significativité statistique)
+  type: text
 
 - id: Q19
   category: Intervention pharmaceutique
-  question: Décrire l’intervention pharmaceutique (le rôle du pharmacien)
-  type: texte
+  question: Décrire l’intervention pharmaceutique (le rôle du pharmacien, décrire chacune de ses actions en débutant par un verbe)
+  type: text
 
 - id: Q20
   category: Intervention pharmaceutique
   question: Où se déroule l’intervention pharmaceutique ?
-  type: texte
+  type: text
 
 - id: Q21
   category: Intervention pharmaceutique
-  question: Quels sont les acteurs de l’intervention ?
-  type: texte
+  question: Quels sont les acteurs de l’intervention ? (exemple : infirmières, médecins spécialistes, techniciens en pharmacie, pharmaciens communautaires, pharmaciens cliniciens, etc)
+  type: text
 
 - id: Q22
   category: Intervention pharmaceutique
   question: Quelle est la durée de l’intervention ?
-  type: texte
+  type: text
 
 - id: Q23
   category: Limites
   question: Quelles sont les limites (faiblesses) de l’étude identifiées par les auteurs ?
-  type: liste
+  type: text

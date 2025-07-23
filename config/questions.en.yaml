@@ -45,6 +45,7 @@
     - Qualitative study
     - Survey
     - Expert opinion
+    - Other
 
 - id: Q7
   category: Methodology
@@ -62,7 +63,7 @@
 
 - id: Q9
   category: Methodology
-  question: What are the secondary objectives (if any)?
+  question: What are the secondary objectives (if any are clearly stated)?
   type: text
 
 - id: Q10
@@ -75,8 +76,8 @@
   question: Is there a control group?
   type: choice
   options:
-    - "Yes"
-    - "No"
+    - Yes
+    - No
 
 - id: Q12
   category: Methodology
@@ -109,21 +110,21 @@
 - id: Q16
   category: Outcomes
   question: Describe the primary outcome.
-  type: array
+  type: text
 
 - id: Q17
   category: Outcomes
   question: What are the results for the primary outcome? Are these results statistically significant?
-  type: array
+  type: text
 
 - id: Q18
   category: Outcomes
   question: If applicable, describe the secondary outcome(s) one by one (description, results, and statistical significance).
-  type: array
+  type: text
 
 - id: Q19
   category: Pharmaceutical Intervention
-  question: Describe the pharmaceutical intervention (role of the pharmacist).
+  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of his actions starting with a verb)
   type: text
 
 - id: Q20
@@ -133,7 +134,7 @@
 
 - id: Q21
   category: Pharmaceutical Intervention
-  question: Who are the stakeholders involved in the intervention?
+  question: Who are the stakeholders involved in the intervention? (example: nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
   type: text
 
 - id: Q22
@@ -144,4 +145,4 @@
 - id: Q23
   category: Limitations
   question: What are the limitations (weaknesses) of the study as identified by the authors?
-  type: array
+  type: text
