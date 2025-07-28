@@ -10,7 +10,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
-TOKENS_PER_MINUTE = 90000
+TOKENS_PER_MINUTE = 450000
 TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
 SAFETY_MARGIN = 0.9
 

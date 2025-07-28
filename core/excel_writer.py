@@ -4,7 +4,6 @@ from openpyxl.worksheet.worksheet import Worksheet
 from datetime import datetime
 import shutil
 
-
 class ExcelWriter:
     def __init__(self, template_path: str = "outputs/template_resultats.xlsx", output_dir: str = "outputs") -> None:
         if not os.path.exists(template_path):
