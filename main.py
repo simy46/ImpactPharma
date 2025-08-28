@@ -79,3 +79,4 @@ for pdf_path in os.listdir(PDF_DIR):
 stats.stop()
 lg.write("info", f"Tous les fichiers ont été traités : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 lg.write("info", f"Statistiques \n{stats.summary()}")
+ 
