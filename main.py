@@ -2,11 +2,11 @@ from datetime import datetime
 import os
 from core.pdf_loader import PDFLoader
 from core.prompt_manager import PromptManager
-from core.api_manager import OpenAIClient
+from core.api_manager import OpenAIClient, TOKENS_PER_MINUTE
 from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
-from core.stats_manager import StatsManager  # <— nouveau
+from core.stats_manager import StatsManager
 
 PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
@@ -17,7 +17,7 @@ pm_en = PromptManager("en")
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
 writer = ExcelWriter(template_path=TEMPLATE_PATH)
-stats = StatsManager(model=api.model, token_limit=450000)  # on récupère le modèle utilisé
+stats = StatsManager(model=api.model, token_limit=TOKENS_PER_MINUTE)  # on récupère le modèle utilisé
 
 stats.start()
 lg.write("info", f"Début du traitement : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

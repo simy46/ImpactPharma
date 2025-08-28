@@ -14,7 +14,6 @@ TOKENS_PER_MINUTE = 450000
 TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
 SAFETY_MARGIN = 0.9
 
-
 class OpenAIClient:
     def __init__(self, logger : LogManager, model="gpt-4o", temperature=0.0, max_tokens=1024):
         self.model = model
