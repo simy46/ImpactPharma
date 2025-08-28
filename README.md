@@ -65,8 +65,8 @@ python main.py
 
 After the script finishes, results will be saved in:
 
-- `/outputs/resultats.xlsx`            : Excel with all extracted answers  
-- `/logs/pipeline_YYYYMMDD_HHMMSS.log` : detailed processing log for each PDF
+- `/outputs/resultats_YYYYMMDD_HHMMSS.xlsx`            : Excel with all extracted answers  
+- `/logs/pipeline_YYYYMMDD_HHMMSS.log`                 : detailed processing log for each PDF
 
 ---
 
@@ -74,7 +74,7 @@ After the script finishes, results will be saved in:
 
 - Don't edit the Excel file while the script is running.
 - If you have questions or errors, share the log file with the developer.
-- It will always write inside `/outputs/resultats.xlsx`, if you want to reset copy `/outputs/template_resultats.xlsx`, move the old `resultats.xlsx` and rename the copy `resultats.xlsx` [sorry will simplify this]
+- It will always write inside a new `/outputs/resultats_YYYYMMDD_HHMMSS.xlsx` with the date and time written on the name of the file.
 
 
 # Motivation
