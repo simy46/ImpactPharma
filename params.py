@@ -12,9 +12,9 @@ MODEL = "gpt-5"
 #          Maximum output tokens         |
 # ========================================
 # Maximum number of tokens the model can generate for the response.
-# Too low  → risk of incomplete or empty answers.
-# Higher   → slower responses and higher cost (you pay for generated tokens).
-MAX_TOKENS = 4500   # for long texts, 4000–8000 is recommended
+# Too low  → risk of incomplete or empty answers (< 4000 is too low)
+# Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
+MAX_TOKENS = 4500   # for long texts, interval [4000, 8000] is recommended
 
 
 # ========================================
