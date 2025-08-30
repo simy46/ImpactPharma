@@ -2,11 +2,12 @@ from datetime import datetime
 import os
 from core.pdf_loader import PDFLoader
 from core.prompt_manager import PromptManager
-from core.api_manager import OpenAIClient, TOKENS_PER_MINUTE
+from core.api_manager import OpenAIClient
 from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
+from params import TOKENS_PER_MINUTE
 
 PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
