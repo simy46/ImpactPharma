@@ -1,27 +1,25 @@
 import os
 import time
+from typing import cast
 import tiktoken
 from openai import OpenAIError, OpenAI
+from openai.types.responses import ResponseTextConfigParam
 from dotenv import load_dotenv
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from core.log_manager import LogManager
+from params import MAX_TOKENS, MODEL, SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
-TOKENS_PER_MINUTE = 450000
-TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
-SAFETY_MARGIN = 0.9
-
 class OpenAIClient:
-    def __init__(self, logger : LogManager, model="gpt-4o", temperature=0.0, max_tokens=1024):
+    def __init__(self, logger : LogManager, model=MODEL, max_tokens=MAX_TOKENS):
         self.model = model
-        self.temperature = temperature
         self.max_tokens = max_tokens
         self.logger : LogManager = logger
 
-    def _count_tokens(self, prompt1, prompt2, model="gpt-4o"):
+    def _count_tokens(self, prompt1, prompt2, model=TOKEN_COUNTER_MODEL):
         encoding = tiktoken.encoding_for_model(model)
         count = len(encoding.encode(prompt1)) + len(encoding.encode(prompt2))
         self.logger.write("token", f"Estimated tokens for request: {count}")
@@ -39,16 +37,24 @@ class OpenAIClient:
             tokens_used = self._count_tokens(system_prompt, user_prompt) + self.max_tokens # token count to avoid 429/ 500 errors
             self._wait_for_token_quota(tokens_used) # dynamic wait based on token count
 
-            response = client.chat.completions.create(
+            response = client.responses.create(
                 model=self.model,
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-                messages=[
+                input=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
-                ]
+                ],
+                reasoning={"effort": "medium"},
+                text=cast(ResponseTextConfigParam, {"verbosity": "medium"}),
+                max_output_tokens=self.max_tokens
             )
-            return response.choices[0].message.content or ""
+
+            answer = response.output_text
+            if not answer:
+                self.logger.write("warn", "Réponse vide, dump brut...")
+                self.logger.write("raw", response.model_dump_json(indent=2))
+                answer = '{"NA": "Non traité"}'  # default response if empty
+            return answer
+
 
         except OpenAIError as e:
             self.logger.write("error", f"OpenAI Error: {e}")
