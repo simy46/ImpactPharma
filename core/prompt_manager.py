@@ -1,6 +1,8 @@
 from typing import List, Dict
 import yaml
 
+from params import SYS_PROMPT_EN, SYS_PROMPT_FR
+
 class PromptManager:
     def __init__(self, lang):
         self.lang = lang
@@ -55,36 +57,6 @@ Do not use ```json or markdown formatting.
 
     def get_system_prompt(self) -> str:
         if self.lang == "fr":
-            return """
-Tu es un expert en lecture critique d’articles scientifiques médicaux.
-
-Ta tâche :
-- Lire le texte fourni
-- Répondre uniquement aux questions posées, dans la langue requise
-- Ne pas extrapoler, ne faire aucune supposition
-
-INSTRUCTIONS :
-- Format de réponse : un seul JSON valide
-- Clés = ID des questions (ex: Q1, Q2, ...)
-- Valeurs = réponses courtes, précises, basées uniquement sur le texte
-- Commence directement avec l'information pertinente, sans répéter ou reformuler la question.
-- Si l'information est absente : "Non précisé dans l'article"
-- Si une question a des choix (options), tu dois répondre mot pour mot avec l'une des options proposées
-""".strip()
+            return SYS_PROMPT_FR.strip()
         else:
-            return """
-You are an expert in critical appraisal of medical scientific articles.
-
-Your task:
-- Read the provided text
-- Only answer the questions asked
-- Do not extrapolate or make any assumptions
-
-INSTRUCTIONS:
-- Response format: only one Valid JSON
-- Keys = Question IDs (e.g., Q1, Q2, ...) 
-- Values = Short, precise answers based only on the text
-- Start directly with the answer, do not repeat or rephrase the question
-- If the information is missing: "Not specified in the article"
-- If a question has predefined options, you must reply using exactly one of the given options (word-for-word)
-""".strip()
+            return SYS_PROMPT_EN.strip()
