@@ -1,14 +1,14 @@
 # AI Tool
-That answers specific questions on scientific publications (~2500-3000 articles in total).
-Automating the process, while keeping great results.
-There is a question of optimization, to : 
-    - reduce tokens used
-    - having clear and better responses
-    - lowering the "hallucinations" rate
-    - GETTING THE MOST FROM AI
+- Answers specific questions on scientific publications (~2500–3000 articles in total).
+- Automates the process while keeping great results.
+- Addresses optimization goals:
+  - Reduce tokens used  
+  - Provide clear and better responses  
+  - Lower the hallucination rate  
+  - Get the most from AI
+- Returns a pre-defined Excel document with Q/A columns.
+- Used in a pharma research lab at CHU Sainte-Justine, Montreal to rework their website.
 
-Returns pre-defined excel document with Q/A columns.
-Used in a pharma research lab at CHU Sainte-Justine, Montreal to rework their website.
 
 # How to Use the Project
 
