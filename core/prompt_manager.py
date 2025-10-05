@@ -25,14 +25,14 @@ class PromptManager:
             q_type = q.get("type", "")
             elements = q.get("elements", [])
             if self.lang == "fr":
-                type_hint = f" [Type attendu : {q_type}]" if q_type and q_type != "text" else ""
+                type_hint = f" [Format attendu : {q_type}]" if q_type and q_type != "text" else ""
                 if "options" in q:
                     opts = ", ".join(q["options"])
                     formatted += f'{q["id"]}. {q["question"]} (Choisir parmi : {opts}){type_hint}\n'
                 else:
                     formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
             else:
-                type_hint = f" [Expected type: {q_type}]" if q_type and q_type != "text" else ""
+                type_hint = f" [Expected format: {q_type}]" if q_type and q_type != "text" else ""
                 if "options" in q:
                     opts = ", ".join(q["options"])
                     formatted += f'{q["id"]}. {q["question"]} (Choose from: {opts}){type_hint}\n'
