@@ -1,13 +1,11 @@
 import os
 import time
-from typing import cast
 import tiktoken
 from openai import OpenAIError, OpenAI
-from openai.types.responses import ResponseTextConfigParam
 from dotenv import load_dotenv
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from core.log_manager import LogManager
-from params import MAX_TOKENS, MODEL, SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND
+from params import MAX_TOKENS, MODEL, REASONING, SAFETY_MARGIN, TEXT, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -43,10 +41,11 @@ class OpenAIClient:
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                reasoning={"effort": "medium"},
-                text=cast(ResponseTextConfigParam, {"verbosity": "medium"}),
+                reasoning=REASONING,
+                text=TEXT,
                 max_output_tokens=self.max_tokens
             )
+
 
             answer = response.output_text
             if not answer:
