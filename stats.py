@@ -90,7 +90,7 @@ def save_stats(text: str):
     ts = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     out_file = STATS_DIR / f"stats_{ts}.txt"
     out_file.write_text(text, encoding="utf-8")
-    print(f"[✅] Statistiques enregistrées dans {out_file}")
+    print(f"Statistiques enregistrées dans {out_file}")
 
 def main():
     parser = argparse.ArgumentParser(description="Génère des stats à partir d'un log.")

@@ -62,10 +62,8 @@ for pdf_path in os.listdir(PDF_DIR):
         lg.write("info", f"[EN] Category: {category}")
         system_en = pm_en.get_system_prompt()
         prompt_en = pm_en.build_prompt(text, category)
-
         tok = api._count_tokens(system_en, prompt_en)
         stats.add_tokens(tok)
-
         raw_en = api.ask(system_en, prompt_en)
         lg.write("info", f"Raw response EN: {raw_en}")
         parsed_en = rp.parse(raw_en)
