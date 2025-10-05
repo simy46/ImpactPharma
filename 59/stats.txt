@@ -1,0 +1,12 @@
+--- STATISTICS ---
+Articles processed     : 28
+Total duration        : 380.03 min
+Total tokens used     : 3422364
+Average tokens/article: 122227.29
+Tokens per minute     : 9005.55
+Model                 : gpt-5
+Token limit / minute  : 1000000
+
+Total cost                : $18.18
+Cost per article          : $0.65
+Cost per article per lang : $0.32

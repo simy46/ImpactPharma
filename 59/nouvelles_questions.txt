@@ -1,0 +1,45 @@
+* voir la question si concorde avec ce que vous voulez *
+* voir si le type est bon pour vous *
+
+----------------------------------------------------------------------------
+
+ - Q9 Methodology
+   
+   (avant)
+   question: What are the secondary objectives (if any are clearly stated)?
+   
+   (après)
+   question: List all secondary objectives of the study exactly as stated in the article.
+ 
+ ----------------------------------------------------------------------------
+
+ - Q17 Outcomes
+
+   (avant)
+   question: What are the results for the primary outcome? Are these results statistically significant?
+   type: text
+
+   (après) *ici voir si 'type' concorde avec vos besoins; ceci a été conseillé par ChatGPT; Serait bien de spécifier ce que vous voulez + alléger la demande;*
+
+   question: What are the results for the primary outcome? Also clearly indicate whether these results are statistically significant.
+   type: yaml list in string. each item must follow exactly this structure:
+       Description:
+       Results:
+       Significance: Yes / No / Not specified
+
+----------------------------------------------------------------------------
+
+ - Q18 Outcomes
+   
+   (avant)
+   question: If applicable, describe the secondary outcome(s) one by one (description, results, and statistical significance).
+   type: text
+
+   (après) *idem ici*
+   question: Describe each secondary outcome one by one, specifying for each its description, results, and statistical significance.
+   type: yaml list in string. each item must follow exactly this structure:
+    - Description:
+       Results:
+       Significance: Yes / No / Not specified
+
+----------------------------------------------------------------------------
