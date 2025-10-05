@@ -1,7 +1,7 @@
 - id: Q1
   category: Informations générales
   question: Quelle est l’année de publication de l’étude ?
-  type: date
+  type: date (YYYY)
 
 - id: Q2
   category: Informations générales
@@ -31,7 +31,7 @@
 - id: Q5
   category: Informations générales
   question: Quelles sont les dates de début et de fin de l’étude, et quelle est sa durée ?
-  type: text
+  type: date début - date fin (durée':'' X ... )
 
 - id: Q6
   category: Informations générales
@@ -63,8 +63,8 @@
 
 - id: Q9
   category: Méthodologie
-  question: Quels sont les objectifs secondaires (si clairement cités dans le texte) ?
-  type: text
+  question: Lister tous les objectifs secondaires de l’étude exactement tels qu’ils sont formulés dans l’article.
+  type: liste yaml en chaîne de caractère
 
 - id: Q10
   category: Méthodologie
@@ -114,13 +114,21 @@
 
 - id: Q17
   category: Outcomes
-  question: Quel sont les résultats du outcome principal ? Ces résultats sont-ils statistiquement significatifs ?
-  type: text
+  question: Quels sont les résultats pour le outcome principal ? Indique aussi clairement si ces résultats sont statistiquement significatifs.
+  type: yaml list en chaîne de caractère. chaque élément doit suivre exactement ce format':'
+      Description':'
+      Resultats':'
+      Significativite':' Oui / Non / Non précisé
+
 
 - id: Q18
   category: Outcomes
-  question: Si présents, décrire le ou les outcome(s) secondaire(s) un par un (description, résultats, et significativité statistique)
-  type: text
+  question: Si présents, décrire chaque outcome secondaire un par un, en indiquant pour chacun la description, les résultats et la significativité statistique.
+  type: yaml list en chaîne de caractère. chaque élément doit suivre exactement ce format':'
+    - Description':'
+      Resultats':'
+      Significativite':'Oui / Non / Non précisé
+
 
 - id: Q19
   category: Intervention pharmaceutique
@@ -145,9 +153,9 @@
 - id: Q22
   category: Intervention pharmaceutique
   question: Quelle est la durée de l’intervention ?
-  type: text
+  type: date début - date fin (durée':' X ... )
 
 - id: Q23
   category: Limites
   question: Quelles sont les limites (faiblesses) de l’étude identifiées par les auteurs ?
-  type: text
+  type: liste yaml en chaîne de caractère
