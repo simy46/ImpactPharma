@@ -7,14 +7,12 @@ from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
-from params import TOKENS_PER_MINUTE
+from params import TOKENS_PER_MINUTE, PDF_DIR, TEMPLATE_PATH
 
-PDF_DIR = "pdfs"
-TEMPLATE_PATH = "outputs/template_resultats.xlsx"
+
 
 lg = LogManager()
-pm_fr = PromptManager("fr")
-pm_en = PromptManager("en")
+pm = PromptManager()
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
 writer = ExcelWriter(template_path=TEMPLATE_PATH)
@@ -37,34 +35,16 @@ for pdf_path in os.listdir(PDF_DIR):
         lg.write("error", f"Extraction échouée pour {pdf_name} : {e}")
         continue
 
-    # ========== version FR ==========
-    responses_fr = {}
-    for category in pm_fr.get_categories():
-        lg.write("info", f"[FR] Catégorie : {category}")
-        system_fr = pm_fr.get_system_prompt()
-        prompt_fr = pm_fr.build_prompt(text, category)
-        tok = api._count_tokens(system_fr, prompt_fr)
-        stats.add_tokens(tok)
-        raw_fr = api.ask(system_fr, prompt_fr)
-        lg.write("info", f"Réponse brute FR : {raw_fr}")
-        parsed_fr = rp.parse(raw_fr)
-        responses_fr.update(parsed_fr)
-
-    try:
-        writer.insert_row(pdf_name + " (FR)", responses_fr)
-        lg.write("info", f"[FR] Résultats ajoutés dans l'Excel pour {pdf_name}")
-    except Exception as e:
-        lg.write("error", f"[FR] Écriture Excel échouée pour {pdf_name} : {e}")
 
     # ========== version EN ==========
     responses_en = {}
-    for category in pm_en.get_categories():
+    for category in pm.get_categories():
         lg.write("info", f"[EN] Category: {category}")
-        system_en = pm_en.get_system_prompt()
-        prompt_en = pm_en.build_prompt(text, category)
-        tok = api._count_tokens(system_en, prompt_en)
+        system_prompt = pm.get_system_prompt()
+        user_prompt = pm.build_prompt(text, category)
+        tok = api._count_tokens(system_prompt, user_prompt)
         stats.add_tokens(tok)
-        raw_en = api.ask(system_en, prompt_en)
+        raw_en = api.ask(system_prompt=system_prompt, user_prompt=user_prompt, tokens_used=tok)
         lg.write("info", f"Raw response EN: {raw_en}")
         parsed_en = rp.parse(raw_en)
         responses_en.update(parsed_en)
