@@ -16,6 +16,7 @@ MODEL = "gpt-5"
 # Too low  → risk of incomplete or empty answers (< 4000 is too low)
 # Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
 MAX_TOKENS = 13_500
+MAX_TOKENS_FR = 4_500
 # reasoning=high interval [5_000, 8_000] is recommended
 # reasoning=high interval [12_000, 15_500] is recommended
 
@@ -29,6 +30,7 @@ MAX_TOKENS = 13_500
 # "high"   → more rigorous, fewer hallucinations, but slower and more expensive.
 from openai.types.shared_params.reasoning import Reasoning
 REASONING = Reasoning(effort="high")
+REASONING_FR = Reasoning(effort="medium")
 
 
 
@@ -40,6 +42,7 @@ REASONING = Reasoning(effort="high")
 # "high"   → longer, more verbose answers.
 from openai.types.responses import ResponseTextConfigParam
 TEXT = ResponseTextConfigParam(verbosity="medium")
+TEXT_FR = ResponseTextConfigParam(verbosity="medium")
 
 
 
@@ -69,59 +72,16 @@ SAFETY_MARGIN = 0.95
 ## DO NOT CHANGE ANY OF THESE PARAMS!!!!!!!!
 ## ===============================================================================================================
 
-
-SCHEMA_PATH = "config/questions.en.yaml"
+PDF_DIR = "pdfs"
+TEMPLATE_PATH = "outputs/template_resultats.xlsx"
+SCHEMA_PATH = "config/questions.yaml"
 
 ##################################################################################################################
 ################################################# SYSTEM PROMPTS #################################################
 ##################################################################################################################
 
 SYS_PROMPT_FR = """
-<ROLE>
-Tu es un expert de très haut niveau en lecture critique d’articles scientifiques médicaux.
-</ROLE>
 
-<TASK>
-Ta mission est d’analyser le texte d’un article scientifique médical et de répondre avec précision à une série de questions prédéfinies.
-Tu dois extraire uniquement les informations explicites présentes dans le texte, sans extrapoler ni interpréter, puis produire une sortie structurée au format JSON.
-</TASK>
-
-<THINK>
-(Étape interne — NE RIEN AFFICHER)
-Pour chaque question :
-1. Identifie la ou les phrases exactes dans l’article qui contiennent l’information pertinente.
-2. S’il y a plusieurs candidates, choisis celle qui correspond le plus littéralement à la question.
-3. Vérifie mentalement que la phrase sélectionnée répond directement à la question sans interprétation implicite.
-4. Si aucune information n’est présente, note mentalement : "Non précisé dans l'article".
-5. Si la question contient des choix prédéfinis, sélectionne exactement une des options proposées, mot pour mot.
-6. Prépare mentalement une clé = ID (ex. Q1) et une valeur = réponse brève et précise.
-</THINK>
-
-<RULES>
-1. Lis attentivement l’article et fonde tes réponses uniquement sur son contenu.
-2. Ne fais aucune supposition ni inférence médicale externe.
-3. Ne répète ni ne reformule les questions dans ta réponse.
-4. Utilise exactement la langue du prompt (FR ici).
-5. Si l’information n’est pas disponible dans l’article, écris : "Non précisé dans l'article".
-6. Si la question comporte des choix, réponds en utilisant exactement une des options proposées, sans la modifier.
-7. Ne produis aucun texte autre que le JSON final.
-8. Avant de répondre, vérifie la validité syntaxique du JSON (aucune clé manquante, format strictement valide).
-9. Vérifie que chaque valeur correspond à une information explicitement présente dans le texte ou à "Non précisé dans l'article".
-</RULES>
-
-<OUTPUT_FORMAT>
-Un unique objet JSON.  
-Clés = IDs des questions (Q1, Q2, …)  
-Valeurs = réponses brèves, précises, basées uniquement sur le texte.
-Toujours fermer les chaînes de caractères avec des guillemets doubles.
-
-Exemple minimal :
-{
-  "Q1": "Oui",
-  "Q2": "Non précisé dans l'article",
-  "Q3": "Option B"
-}
-</OUTPUT_FORMAT>
 """
 
 SYS_PROMPT_EN = """
