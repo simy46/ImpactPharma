@@ -1,161 +1,160 @@
 - id: Q1
-  category: Informations générales
-  question: Quelle est l’année de publication de l’étude ?
+  category: General Information
+  question: What is the year of publication of the study?
   type: date (YYYY)
 
 - id: Q2
-  category: Informations générales
-  question: De quel pays provient l’étude ?
+  category: General Information
+  question: From which country does the study originate?
   type: text
 
 - id: Q3
-  category: Informations générales
-  question: Dans quel type de structure de soins l’étude a-t-elle été réalisée ?
+  category: General Information
+  question: In what type of healthcare setting was the study conducted?
   type: choice
   options:
-    - Hôpital
-    - Clinique externe
-    - Pharmacie communautaire
-    - Plusieurs des options ci-dessus (milieu mixte)
-    - Autre
+    - Hospital
+    - Outpatient clinic
+    - Community pharmacy
+    - Mixed (several of the above)
+    - Other
 
 - id: Q4
-  category: Informations générales
-  question: Est-ce une étude monocentrique ou multicentrique ?
+  category: General Information
+  question: Is the study single-center or multicenter?
   type: choice
   options:
-    - Monocentrique
-    - Multicentrique
-    - Non précisé
+    - Single-center
+    - Multicenter
+    - Not specified
 
 - id: Q5
-  category: Informations générales
-  question: Quelles sont les dates de début et de fin de l’étude, et quelle est sa durée ?
-  type: date début - date fin (durée':'' X ... )
+  category: General Information
+  question: What are the start and end dates of the study, and what is its duration?
+  type: start date - end date (duration':' X ... )
 
 - id: Q6
-  category: Informations générales
-  question: Quel est le devis (design) d’étude ?
+  category: General Information
+  question: What is the study design?
   type: choice
   options:
-    - Essai contrôlé randomisé
-    - Étude de cohorte
-    - Étude avant-après
-    - Étude observationnelle (sans intervention)
-    - Étude qualitative
-    - Enquête
-    - Avis d’expert
-    - Autre
+    - Randomized controlled trial
+    - Cohort study
+    - Before-after study
+    - Observational study (no intervention)
+    - Qualitative study
+    - Survey
+    - Expert opinion
+    - Other
 
 - id: Q7
-  category: Méthodologie
-  question: Quelle est la temporalité de l’étude ?
+  category: Methodology
+  question: What is the temporality of the study?
   type: choice
   options:
-    - Rétrospective
+    - Retrospective
     - Prospective
-    - Transversale
+    - Cross-sectional
 
 - id: Q8
-  category: Méthodologie
-  question: Quel est l’objectif principal (primaire) de l’étude ?
+  category: Methodology
+  question: What is the primary objective of the study?
   type: text
 
 - id: Q9
-  category: Méthodologie
-  question: Lister tous les objectifs secondaires de l’étude exactement tels qu’ils sont formulés dans l’article.
-  type: liste yaml en chaîne de caractère
+  category: Methodology
+  question: List all secondary objectives of the study exactly as stated in the article.
+  type: yaml list in string
 
 - id: Q10
-  category: Méthodologie
-  question: Combien de groupes sont à l’étude ?
+  category: Methodology
+  question: How many groups are being studied?
   type: number
 
 - id: Q11
-  category: Méthodologie
-  question: Est-ce qu’il y a un groupe contrôle ?
+  category: Methodology
+  question: Is there a control group?
   type: choice
   options:
-    - Oui
-    - Non
+    - "Yes"
+    - "No"
 
 - id: Q12
-  category: Méthodologie
-  question: Comment sont répartis les participants ?
+  category: Methodology
+  question: How are the participants allocated?
   type: choice
   options:
-    - Aléatoire
-    - Non aléatoire
-    - Quasi-aléatoire
+    - Random
+    - Non-random
+    - Quasi-random
 
 - id: Q13
-  category: Méthodologie
-  question: Quels sont les critères d’inclusion des participants ?
+  category: Methodology
+  question: What are the inclusion criteria for participants?
   type: text
 
 - id: Q14
-  category: Méthodologie
-  question: Quels sont les critères d’exclusion des participants ?
+  category: Methodology
+  question: What are the exclusion criteria for participants?
   type: text
 
 - id: Q15
-  category: Méthodologie
-  question: Comment se déroule l’étude ?
+  category: Methodology
+  question: What is the blinding method used in the study?
   type: choice
   options:
-    - Insu simple (simple aveugle)
-    - Insu double
-    - Aucun insu
+    - Single-blind
+    - Double-blind
+    - No blinding
 
 - id: Q16
   category: Outcomes
-  question: Décrire le outcome (le paramètre) principal ?
+  question: Describe the primary outcome.
   type: text
 
 - id: Q17
   category: Outcomes
-  question: Quels sont les résultats pour le outcome principal ? Indique aussi clairement si ces résultats sont statistiquement significatifs.
-  type: yaml list en chaîne de caractère. chaque élément doit suivre exactement ce format':'
+  question: What are the results for the primary outcome? Also clearly indicate whether these results are statistically significant.
+  type: yaml list in string. each item must follow exactly this structure':'
       Description':'
-      Resultats':'
-      Significativite':' Oui / Non / Non précisé
-
+      Results':'
+      Significance':' Yes / No / Not specified
 
 - id: Q18
   category: Outcomes
-  question: Si présents, décrire chaque outcome secondaire un par un, en indiquant pour chacun la description, les résultats et la significativité statistique.
-  type: yaml list en chaîne de caractère. chaque élément doit suivre exactement ce format':'
+  question: Describe each secondary outcome one by one, specifying for each its description, results, and statistical significance.
+  type: yaml list in string. each item must follow exactly this structure':'
     - Description':'
-      Resultats':'
-      Significativite':'Oui / Non / Non précisé
+      Results':'
+      Significance':' Yes / No / Not specified
 
 
 - id: Q19
-  category: Intervention pharmaceutique
-  question: Décrire l’intervention pharmaceutique (le rôle du pharmacien, décrire chacune de ses actions en débutant par un verbe)
+  category: Pharmaceutical Intervention
+  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of their actions starting with a verb)
   elements:
-    - Comment l’intervention est-elle mise en œuvre ?
-    - Quelles actions concrètes sont menées ?
-    - Dans quelles actions ou processus le pharmacien est-il impliqué ?
-    - Chaque action doit commencer par un verbe.
+    - How is the intervention implemented?
+    - What concrete actions are carried out?
+    - In which actions or processes is the pharmacist involved?
+    - Each action must begin with a verb.
   type: text
 
 - id: Q20
-  category: Intervention pharmaceutique
-  question: Où se déroule l’intervention pharmaceutique ?
+  category: Pharmaceutical Intervention
+  question: Where does the pharmaceutical intervention take place?
   type: text
 
 - id: Q21
-  category: Intervention pharmaceutique
-  question: Quels sont les acteurs de l’intervention ? (exemple ':' infirmières, médecins spécialistes, techniciens en pharmacie, pharmaciens communautaires, pharmaciens cliniciens, etc)
+  category: Pharmaceutical Intervention
+  question: Who are the stakeholders involved in the intervention? (example':' nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
   type: text
 
 - id: Q22
-  category: Intervention pharmaceutique
-  question: Quelle est la durée de l’intervention ?
-  type: date début - date fin (durée':' X ... )
+  category: Pharmaceutical Intervention
+  question: What is the duration of the intervention?
+  type: start_date - end_date (duration':' X ... )
 
 - id: Q23
-  category: Limites
-  question: Quelles sont les limites (faiblesses) de l’étude identifiées par les auteurs ?
-  type: liste yaml en chaîne de caractère
+  category: Limitations
+  question: What are the limitations (weaknesses) of the study as identified by the authors?
+  type: yaml list in string
