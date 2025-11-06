@@ -1,7 +1,6 @@
-from typing import List, Dict
 import yaml
-
-from params import SYS_PROMPT_EN, SCHEMA_PATH
+from typing import List, Dict
+from params import SYS_PROMPT_EN, SCHEMA_PATH, SYS_PROMPT_FR
 
 class PromptManager:
     def __init__(self):
@@ -21,16 +20,15 @@ class PromptManager:
         for q in questions:
             q_type = q.get("type", "")
             elements = q.get("elements", [])
-           
-            type_hint = f" [Expected format: {q_type}]" if q_type and q_type != "text" else ""
+            type_hint = f" [Expected format: {q_type}]"
+
             if "options" in q:
                 opts = ", ".join(q["options"])
                 formatted += f'{q["id"]}. {q["question"]} (Choose from: {opts}){type_hint}\n'
             else:
                 formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
-                if elements:
-                    for e in elements:
-                        formatted += f'   - {e.strip()}\n'
+                for e in elements:
+                    formatted += f'   - {e.strip()}\n'
 
         prefix = "ARTICLE TEXT"
         instruction = "Respond only in raw JSON format: { Q1: answer, Q2: answer, ...}."
@@ -49,4 +47,4 @@ Do not use ```json or markdown formatting.
         return SYS_PROMPT_EN.strip()
     
     def translate_prompt(self) -> str:
-        return ''
+        return SYS_PROMPT_FR.strip()

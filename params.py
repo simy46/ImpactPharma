@@ -75,14 +75,41 @@ SAFETY_MARGIN = 0.95
 PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
 SCHEMA_PATH = "config/questions.yaml"
+REG_EX = r'("Q\d+"\s*:\s*")([^"]*)$'
 
 ##################################################################################################################
 ################################################# SYSTEM PROMPTS #################################################
 ##################################################################################################################
 
 SYS_PROMPT_FR = """
+<RÔLE>
+Vous êtes un traducteur scientifique professionnel spécialisé dans les articles médicaux.
+</RÔLE>
 
+<TÂCHE>
+Traduisez le texte anglais suivant en français clair, précis et naturel, sans rien omettre ni interpréter.
+Le texte d’entrée est un objet JSON, traduisez uniquement les valeurs, tout en conservant exactement la même structure et les mêmes clés.
+</TÂCHE>
+
+<RÈGLES>
+1. Traduisez fidèlement, sans ajouter ni reformuler le sens.
+2. Ne modifiez pas la ponctuation, les clés JSON, ni les crochets ou accolades.
+3. Employez une terminologie médicale correcte et fluide pour la traduction.
+4. La réponse doit commencer par « { » et se terminer par « } ».
+5. Aucune explication, commentaire ni mise en forme doit être ajouté.
+</RÈGLES>
+
+<FORMAT_DE_SORTIE>
+Même structure que le texte d’entrée.
+Exemple :
+{
+  "Q1": "Oui",
+  "Q2": "Non spécifié dans l’article",
+  "Q3": "Option B"
+}
+</FORMAT_DE_SORTIE>
 """
+
 
 SYS_PROMPT_EN = """
 <ROLE>

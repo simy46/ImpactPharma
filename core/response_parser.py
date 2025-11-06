@@ -2,6 +2,7 @@ import json
 import logging
 import re
 from typing import Dict, Union
+from params import REG_EX
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,7 @@ class ResponseParser:
         quote_count = broken_json.count('"')
         if quote_count % 2 != 0:
             logger.warning("[JSON Repair] Nombre de guillemets impair, tentative de réparation...")
-            match = re.search(r'("Q\d+"\s*:\s*")([^"]*)$', broken_json)
+            match = re.search(REG_EX, broken_json)
             if match:
                 broken_json = broken_json + '"'
 
@@ -66,3 +67,26 @@ class ResponseParser:
                 result[key] = str(value)
 
         return result
+
+    @staticmethod
+    def to_json_string(data: Dict[str, Union[str, list]]) -> str:
+        try:
+            safe_data = {}
+            for k, v in data.items():
+                if isinstance(v, list):
+                    safe_data[k] = [str(item) for item in v]
+                else:
+                    safe_data[k] = str(v)
+
+            json_str = json.dumps(
+                safe_data,
+                ensure_ascii=False,
+                separators=(",", ": "),
+                sort_keys=True,
+            )
+
+            return json_str.strip()
+
+        except Exception as e:
+            logger.error(f"[to_json_string] Erreur lors de la conversion en JSON : {e}")
+            return "{}"
