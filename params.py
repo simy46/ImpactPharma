@@ -16,7 +16,7 @@ MODEL = "gpt-5"
 # Too low  → risk of incomplete or empty answers (< 4000 is too low)
 # Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
 MAX_TOKENS = 13_500
-MAX_TOKENS_FR = 4_500
+MAX_TOKENS_FR = 5_000
 # reasoning=high interval [5_000, 8_000] is recommended
 # reasoning=high interval [12_000, 15_500] is recommended
 

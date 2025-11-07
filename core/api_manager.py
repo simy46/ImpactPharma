@@ -18,9 +18,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
 
 class OpenAIClient:
-    def __init__(self, logger: LogManager, model=MODEL, max_tokens=MAX_TOKENS):
-        self.model = model
-        self.max_tokens = max_tokens
+    def __init__(self, logger: LogManager):
         self.logger: LogManager = logger
 
     def _count_tokens(self, prompt1, prompt2, model=TOKEN_COUNTER_MODEL) -> int:
@@ -39,13 +37,13 @@ class OpenAIClient:
         try:
             reasoning = REASONING_FR if lang == "fr" else REASONING
             text = TEXT_FR if lang == "fr" else TEXT
-            max_tokens = MAX_TOKENS_FR if lang == "fr" else self.max_tokens
+            max_tokens = MAX_TOKENS_FR if lang == "fr" else MAX_TOKENS
 
             total_tokens = tokens_used + max_tokens
             self._wait_for_token_quota(total_tokens)
 
             response = client.responses.create(
-                model=self.model,
+                model=MODEL,
                 input=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
@@ -54,6 +52,16 @@ class OpenAIClient:
                 text=text,
                 max_output_tokens=max_tokens,
             )
+
+            if hasattr(response, "incomplete_details") and response.incomplete_details:
+                reason = response.incomplete_details.get("reason")
+                if reason == "max_output_tokens":
+                    self.logger.write("warn", f"Réponse incomplète (max_output_tokens atteint). Relance avec plus de tokens...")
+                    if max_tokens < 15000:
+                        return self.ask(system_prompt, user_prompt, tokens_used, lang)
+                    else:
+                        self.logger.write("error", "Max tokens déjà au plafond (15000), arrêt.")
+                        return '{"NA": "Non traité"}'
 
             answer = response.output_text
             if not answer:
