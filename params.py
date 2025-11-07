@@ -142,6 +142,7 @@ For each question:
 7. Do not output anything other than the final JSON.
 8. Validate the JSON syntax before replying (no missing keys, strictly valid format).
 9. Verify that each value corresponds to explicit information in the text or to "Not specified in the article".
+10. "Do not use ```json or markdown formatting."
 </RULES>
 
 <OUTPUT_FORMAT>

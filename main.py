@@ -52,10 +52,10 @@ for pdf_path in os.listdir(PDF_DIR):
 
         # --- Translates in FR ---
         raw_json_en = rp.to_json_string(parsed_en)
+        print(raw_json_en)
         system_prompt_fr = pm.translate_prompt()
         tok_fr = api._count_tokens(system_prompt_fr, raw_json_en)
         stats.add_tokens(tok_fr)
-
         raw_fr = api.ask(system_prompt=system_prompt_fr, user_prompt=raw_json_en, tokens_used=tok_fr, lang="fr")
         lg.write("info", f"[FR] Raw: {raw_fr}")
         parsed_fr = rp.parse(raw_fr)
