@@ -15,33 +15,36 @@ class PromptManager:
 
     def build_prompt(self, article_text: str, category: str) -> str:
         questions = self.get_questions_by_category(category)
+        lines = []
 
-        formatted = ""
         for q in questions:
-            q_type = q.get("type", "")
-            elements = q.get("elements", [])
-            type_hint = f" [Expected format: {q_type}]"
+            qid = q["id"]
+            qtext = q["question"]
+            qtype = q.get("type", "").strip()
+            qopts = q.get("options", [])
+            qelems = q.get("elements", [])
 
-            if "options" in q:
-                opts = ", ".join(q["options"])
-                formatted += f'{q["id"]}. {q["question"]} (Choose from: {opts}){type_hint}\n'
-            else:
-                formatted += f'{q["id"]}. {q["question"]}{type_hint}\n'
-                for e in elements:
-                    formatted += f'   - {e.strip()}\n'
+            type_hint = f" [Expected format: {qtype}]" if qtype else ""
+            line = f"{qid}. {qtext}{type_hint}"
 
+            if qopts:
+                opts_str = ", ".join(qopts)
+                line += f" (Choose from: {opts_str})"
+
+            lines.append(line)
+
+            for e in qelems:
+                lines.append(f"   - {e.strip()}")
+
+        formatted_questions = "\n".join(lines)
         prefix = "ARTICLE TEXT"
         instruction = "Respond only in raw JSON format: { Q1: answer, Q2: answer, ...}."
 
-        return f"""{prefix} :
-{article_text.strip()}
-
-QUESTIONS :
-{formatted.strip()}
-
-{instruction}
-Do not use ```json or markdown formatting.
-"""
+        return (
+            f"{prefix} :\n{article_text.strip()}\n\n"
+            f"QUESTIONS :\n{formatted_questions}\n\n"
+            f"{instruction}\n"
+        )
 
     def get_system_prompt(self) -> str:
         return SYS_PROMPT_EN.strip()
