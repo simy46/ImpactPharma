@@ -84,10 +84,10 @@ class StatsManager:
     MODEL            = "{MODEL}"   # main model used for reasoning and quality
     MAX_TOKENS       = {MAX_TOKENS}   # max output tokens per request (EN)
     MAX_TOKENS_FR    = {MAX_TOKENS_FR}   # max output tokens per request (FR)
-    REASONING        = {REASONING.effort}   # reasoning level for GPT-5 (speed vs depth)
-    REASONING_FR     = {REASONING_FR.effort}   # reasoning level for French outputs
-    TEXT             = {TEXT.verbosity}   # verbosity of English responses
-    TEXT_FR          = {TEXT_FR.verbosity}   # verbosity of French responses
+    REASONING        = "{REASONING.get('effort', 'unknown')}"   # reasoning level for GPT-5 (speed vs depth)
+    REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"   # reasoning level for French outputs
+    TEXT             = "{TEXT.get('verbosity', 'unknown')}"   # verbosity of English responses
+    TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"   # verbosity of French responses
     SAFETY_MARGIN    = {SAFETY_MARGIN}   # use only 95% of token quota for safety
     """
 
