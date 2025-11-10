@@ -15,8 +15,8 @@ MODEL = "gpt-5"
 # Maximum number of tokens the model can generate for the response.
 # Too low  → risk of incomplete or empty answers (< 4000 is too low)
 # Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
-MAX_TOKENS = 13_500
-MAX_TOKENS_FR = 5_000
+MAX_TOKENS = 5_000
+MAX_TOKENS_FR = 2_000
 # reasoning=high interval [5_000, 8_000] is recommended
 # reasoning=high interval [12_000, 15_500] is recommended
 
@@ -29,8 +29,8 @@ MAX_TOKENS_FR = 5_000
 # "medium" → balance of speed and quality.
 # "high"   → more rigorous, fewer hallucinations, but slower and more expensive.
 from openai.types.shared_params.reasoning import Reasoning
-REASONING = Reasoning(effort="high")
-REASONING_FR = Reasoning(effort="medium")
+REASONING = Reasoning(effort="medium")
+REASONING_FR = Reasoning(effort="low")
 
 
 
@@ -41,7 +41,7 @@ REASONING_FR = Reasoning(effort="medium")
 # "medium" → concise and structured.
 # "high"   → longer, more verbose answers.
 from openai.types.responses import ResponseTextConfigParam
-TEXT = ResponseTextConfigParam(verbosity="medium")
+TEXT = ResponseTextConfigParam(verbosity="high")
 TEXT_FR = ResponseTextConfigParam(verbosity="medium")
 
 
@@ -71,6 +71,8 @@ SAFETY_MARGIN = 0.95
 ## ===============================================================================================================
 ## DO NOT CHANGE ANY OF THESE PARAMS!!!!!!!!
 ## ===============================================================================================================
+from pathlib import Path
+import re
 
 PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
@@ -78,6 +80,7 @@ OUTPUT_DIR = "outputs"
 SCHEMA_PATH = "config/questions.yaml"
 REG_EX = r'("Q\d+"\s*:\s*")([^"]*)$'
 OPENAI_API_KEY = "OPENAI_API_KEY" # got ur ass
+COST_PER_TOKEN = 0.000006 
 
 ##################################################################################################################
 ################################################# SYSTEM PROMPTS #################################################

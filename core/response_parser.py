@@ -88,5 +88,5 @@ class ResponseParser:
             return json_str.strip()
 
         except Exception as e:
-            logger.error(f"[to_json_string] Erreur lors de la conversion en JSON : {e}")
+            logger.error(f"[to_json_string] Erreur JSON conversion : {e}")
             return "{}"
