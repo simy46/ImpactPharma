@@ -7,14 +7,14 @@ from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
-from params import TOKENS_PER_MINUTE, PDF_DIR, TEMPLATE_PATH
+from params import PDF_DIR, TEMPLATE_PATH
 
 lg = LogManager()
 pm = PromptManager()
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
 writer = ExcelWriter(template_path=TEMPLATE_PATH)
-stats = StatsManager(model=api.model, token_limit=TOKENS_PER_MINUTE)  # on récupère le modèle utilisé
+stats = StatsManager()
 
 stats.start()
 lg.write("info", f"Début du traitement : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

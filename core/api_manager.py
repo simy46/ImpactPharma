@@ -10,11 +10,12 @@ from params import (
     MODEL, MAX_TOKENS, MAX_TOKENS_FR,
     REASONING, REASONING_FR,
     TEXT, TEXT_FR,
-    SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND
+    SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND,
+    OPENAI_API_KEY
 )
 
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv(OPENAI_API_KEY)
 client = OpenAI(api_key=api_key)
 
 class OpenAIClient:

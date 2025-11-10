@@ -64,7 +64,7 @@ TOKEN_COUNTER_MODEL = "gpt-4o"
 TOKENS_PER_MINUTE = 1_000_000
 TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
 
-# Safety margin → use only 90% of the quota to avoid hitting limits.
+# Safety margin → use only 95% of the quota to avoid hitting limits.
 SAFETY_MARGIN = 0.95
 
 
@@ -74,8 +74,10 @@ SAFETY_MARGIN = 0.95
 
 PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
+OUTPUT_DIR = "outputs"
 SCHEMA_PATH = "config/questions.yaml"
 REG_EX = r'("Q\d+"\s*:\s*")([^"]*)$'
+OPENAI_API_KEY = "OPENAI_API_KEY" # got ur ass
 
 ##################################################################################################################
 ################################################# SYSTEM PROMPTS #################################################

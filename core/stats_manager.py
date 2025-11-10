@@ -1,8 +1,9 @@
 from datetime import datetime
 from typing import Union
+from params import MODEL, TOKENS_PER_MINUTE
 
 class StatsManager:
-    def __init__(self, model: str = "gpt-4o", token_limit: int = 450000):
+    def __init__(self, model: str = MODEL, token_limit: int = TOKENS_PER_MINUTE):
         self.model = model
         self.token_limit = token_limit
         self.start_time: datetime | None = None
