@@ -22,7 +22,6 @@ class StatsManager:
 
     def stop(self):
         self.end_time = datetime.now()
-        
     
     def summary_dict(self) -> dict:
         duration_min = (
@@ -41,30 +40,20 @@ class StatsManager:
             "token_limit": self.token_limit,
         }
 
-    def summary(self, as_markdown: bool = False) -> Union[str, dict]:
+    def summary(self) -> str:
         stats = self.summary_dict()
-        if not as_markdown:
-            return (
-                f"--- STATISTICS ---\n"
-                f"Articles processed     : {stats['articles']}\n"
-                f"Total duration        : {stats['duration_min']} min\n"
-                f"Total tokens used     : {stats['total_tokens']}\n"
-                f"Average tokens/article: {stats['avg_tokens']}\n"
-                f"Tokens per minute     : {stats['tokens_per_min']}\n"
-                f"Model                 : {stats['model']}\n"
-                f"Token limit / minute  : {stats['token_limit']}"
-            )
-        else:
-            # Tableau Markdown
-            md = [
-                "| Metric                   | Value |",
-                "|--------------------------|-------|",
-                f"| Articles processed       | {stats['articles']} |",
-                f"| Total duration (min)     | {stats['duration_min']} |",
-                f"| Total tokens used        | {stats['total_tokens']} |",
-                f"| Avg tokens/article       | {stats['avg_tokens']} |",
-                f"| Tokens per minute        | {stats['tokens_per_min']} |",
-                f"| Model                    | {stats['model']} |",
-                f"| Token limit / minute     | {stats['token_limit']} |",
-            ]
-            return "\n".join(md)
+        return (
+            f"--- STATISTICS ---\n"
+            f"Articles processed     : {stats['articles']}\n"
+            f"Total duration        : {stats['duration_min']} min\n"
+            f"Total tokens used     : {stats['total_tokens']}\n"
+            f"Average tokens/article: {stats['avg_tokens']}\n"
+            f"Tokens per minute     : {stats['tokens_per_min']}\n"
+            f"Model                 : {stats['model']}\n"
+            f"Token limit / minute  : {stats['token_limit']}\n"
+            f"Articles/minute       : {round(stats['articles'] / stats['duration_min'], 2) if stats['duration_min'] else 0}\n"
+            f"Tokens/article/minute : {round(stats['avg_tokens'] / stats['duration_min'], 2) if stats['duration_min'] else 0}\n"
+            f"Total cost            : \n"
+            f"Cost per article      : \n"
+            f"Cost/article/lang     : "
+        )
