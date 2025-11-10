@@ -15,8 +15,8 @@ MODEL = "gpt-5"
 # Maximum number of tokens the model can generate for the response.
 # Too low  → risk of incomplete or empty answers (< 4000 is too low)
 # Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
-MAX_TOKENS = 5_000
-MAX_TOKENS_FR = 2_000
+MAX_TOKENS = 12_000
+MAX_TOKENS_FR = 2_500
 # reasoning=high interval [5_000, 8_000] is recommended
 # reasoning=high interval [12_000, 15_500] is recommended
 
@@ -29,7 +29,7 @@ MAX_TOKENS_FR = 2_000
 # "medium" → balance of speed and quality.
 # "high"   → more rigorous, fewer hallucinations, but slower and more expensive.
 from openai.types.shared_params.reasoning import Reasoning
-REASONING = Reasoning(effort="medium")
+REASONING = Reasoning(effort="high")
 REASONING_FR = Reasoning(effort="low")
 
 
