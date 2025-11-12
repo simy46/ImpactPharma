@@ -56,7 +56,7 @@ for pdf_path in os.listdir(PDF_DIR):
         parsed_en = rp.parse(raw_en)
         if category == METHODOLOGY_CATEGORY:
             if QUESTION_8 in parsed_en:
-                context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_9]
+                context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_8]
             if QUESTION_9 in parsed_en:
                 context_for_outcomes[QUESTION_9] = parsed_en[QUESTION_9]
         responses_en.update(parsed_en)
