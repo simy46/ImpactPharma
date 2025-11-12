@@ -16,8 +16,10 @@
     - Hospital
     - Outpatient clinic
     - Community pharmacy
-    - Mixed (several of the above)
+    - Mixed (specify which of the above)
     - Other
+  extra_specification: >
+    If "Mixed" is selected, specify which healthcare settings are included (e.g., Hospital + Community pharmacy).
 
 - id: Q4
   category: General Information
@@ -61,11 +63,16 @@
   category: Methodology
   question: What is the primary objective of the study?
   type: text
+  extra_specification: >
+    When several primary objectives are mentioned, list them in chronological order as they appear in the article.
 
 - id: Q9
   category: Methodology
   question: List all secondary objectives of the study exactly as stated in the article.
   type: yaml list in string
+  extra_specification: >
+    Maintain the chronological order as presented in the article.
+
 
 - id: Q10
   category: Methodology
@@ -116,18 +123,26 @@
 - id: Q17
   category: Outcomes
   question: What are the results for the primary outcome? Also clearly indicate whether these results are statistically significant.
-  type: yaml list in string. each item must follow exactly this structure':'
-      Description':'
-      Results':'
-      Significance':' Yes / No / Not specified
+  type: yaml list in string
+  extra_specification: >
+    These results must correspond directly to the primary objective described in Q8.
+    Each item must follow exactly this structure:
+      - Description:
+      - Results:
+      - Significance: Yes / No / Not specified
+
 
 - id: Q18
   category: Outcomes
   question: Describe each secondary outcome one by one, specifying for each its description, results, and statistical significance.
-  type: yaml list in string. each item must follow exactly this structure':'
-    - Description':'
-      Results':'
-      Significance':' Yes / No / Not specified
+  type: yaml list in string
+  extra_specification: >
+    These outcomes must correspond directly to the secondary objectives listed in Q9, in the same order.
+    Each item must follow exactly this structure:
+      - Description:
+      - Results:
+      - Significance: Yes / No / Not specified
+
 
 
 - id: Q19

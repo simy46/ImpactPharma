@@ -68,18 +68,7 @@ TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
 SAFETY_MARGIN = 0.95
 
 
-## ===============================================================================================================
-## DO NOT CHANGE ANY OF THESE PARAMS!!!!!!!!
-## ===============================================================================================================
-from pathlib import Path
-import re
-
-PDF_DIR = "pdfs"
-TEMPLATE_PATH = "outputs/template_resultats.xlsx"
-OUTPUT_DIR = "outputs"
-SCHEMA_PATH = "config/questions.yaml"
-REG_EX = r'("Q\d+"\s*:\s*")([^"]*)$'
-OPENAI_API_KEY = "OPENAI_API_KEY" # got ur ass
+# Estimation of CPT
 COST_PER_TOKEN = 0.000006 
 
 ##################################################################################################################
@@ -133,24 +122,21 @@ The final output must remain a structured JSON object.
 For each question:
 1. Identify the exact sentence(s) in the article containing the relevant information.
 2. If multiple candidates exist, choose the one that best matches the literal wording of the question.
-3. If no explicit information is found but a logical inference can be made from the context, generate a reasoned interpretation and mark it as such.
-4. For endpoints (primary/secondary objectives), if not explicitly stated, assume chronological order: the first mentioned objectives are primary, and the subsequent ones are secondary.
-5. If the question has predefined options, select exactly one option, word-for-word.
-6. Mentally verify that each selected or interpreted element directly answers the question.
-7. Prepare a key = ID (Q1, Q2, ...) and a value = short, precise answer (explicit or interpreted).
+3. If the question has predefined options, select exactly one option, word-for-word.
+4. Mentally verify that each selected or interpreted element directly answers the question.
+5. Prepare a key = ID (Q1, Q2, ...) and a value = short, precise answer (explicit or interpreted).
 </THINK>
 
 <RULES>
 1. Read the article carefully and base your answers solely on its content.
 2. Use explicit information whenever possible.
 3. If no explicit data is found but a reasonable inference can be drawn, provide an interpreted answer marked with "[Interpreted data]". Example: "Improved overall survival [Interpreted data]". 
-4. For primary and secondary objectives: - If not explicitly labeled, classify them chronologically (first mentioned = primary; later ones = secondary). - Indicate this logic by adding "[Chronological order]". Example: "Primary objective: evaluate efficacy [Chronological order]".
-5. Do not repeat or paraphrase the questions in your answers.
-6. If the information is not present in the article, write: "Not specified in the article".
-7. If the question has predefined options, answer using exactly one of them, word-for-word.
-8. Do not output anything other than the final JSON.
-9. Validate the JSON syntax before replying (no missing keys, strictly valid format).
-10. "Do not use ```json or markdown formatting."
+4. Do not repeat or paraphrase the questions in your answers.
+5. If the information is not present in the article, write: "Not specified in the article".
+6. If the question has predefined options, answer using exactly one of them, word-for-word.
+7. Do not output anything other than the final JSON.
+8. Validate the JSON syntax before replying (no missing keys, strictly valid format).
+9. "Do not use ```json or markdown formatting."
 </RULES>
 
 <OUTPUT_FORMAT>

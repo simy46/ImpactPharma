@@ -6,13 +6,14 @@ from openai import OpenAIError, OpenAI
 from dotenv import load_dotenv
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from core.log_manager import LogManager
-from params import (
+from constants.params import (
     MODEL, MAX_TOKENS, MAX_TOKENS_FR,
     REASONING, REASONING_FR,
     TEXT, TEXT_FR,
-    SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND,
-    OPENAI_API_KEY
+    SAFETY_MARGIN, TOKEN_COUNTER_MODEL, TOKENS_PER_SECOND
 )
+
+from constants.script_consts import OPENAI_API_KEY
 
 load_dotenv()
 api_key = os.getenv(OPENAI_API_KEY)

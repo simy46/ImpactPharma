@@ -3,7 +3,7 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from datetime import datetime
 import shutil
-from params import TEMPLATE_PATH, OUTPUT_DIR
+from constants.script_consts import TEMPLATE_PATH, OUTPUT_DIR
 
 class ExcelWriter:
     def __init__(self, template_path: str = TEMPLATE_PATH, output_dir: str = OUTPUT_DIR) -> None:

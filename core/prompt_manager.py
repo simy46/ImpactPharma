@@ -1,6 +1,7 @@
 import yaml
 from typing import List, Dict
-from params import SYS_PROMPT_EN, SCHEMA_PATH, SYS_PROMPT_FR
+from constants.params import SYS_PROMPT_EN, SYS_PROMPT_FR
+from constants.script_consts import SCHEMA_PATH
 
 class PromptManager:
     def __init__(self):
@@ -13,7 +14,7 @@ class PromptManager:
     def get_questions_by_category(self, category: str) -> List[Dict]:
         return [q for q in self.questions if q["category"] == category]
 
-    def build_prompt(self, article_text: str, category: str) -> str:
+    def build_prompt(self, article_text: str, category: str, previous_answers: dict | None = None) -> str:
         questions = self.get_questions_by_category(category)
         lines = []
 
@@ -23,6 +24,7 @@ class PromptManager:
             qtype = q.get("type", "").strip()
             qopts = q.get("options", [])
             qelems = q.get("elements", [])
+            espec = q.get("extra_specification", "")
 
             type_hint = f" [Expected format: {qtype}]" if qtype else ""
             line = f"{qid}. {qtext}{type_hint}"
@@ -36,15 +38,27 @@ class PromptManager:
             for e in qelems:
                 lines.append(f"   - {e.strip()}")
 
+            if espec:
+                lines.append(f"   (Note: {espec.strip()})")
+
+        context_str = ""
+        if previous_answers:
+            context_lines = ["Context from previous answers:"]
+            for qid, answer in previous_answers.items():
+                context_lines.append(f" - {qid}: {answer}")
+            context_str = "\n".join(context_lines) + "\n\n"
+
         formatted_questions = "\n".join(lines)
         prefix = "ARTICLE TEXT"
-        instruction = "Respond only in raw JSON format: { Q1: answer, Q2: answer, ...}."
+        instruction = "Respond only in raw JSON format: { Q1: answer, Q2: answer, ... }."
 
         return (
-            f"{prefix} :\n{article_text.strip()}\n\n"
-            f"QUESTIONS :\n{formatted_questions}\n\n"
+            f"{prefix}:\n{article_text.strip()}\n\n"
+            f"{context_str}"
+            f"QUESTIONS:\n{formatted_questions}\n\n"
             f"{instruction}\n"
         )
+
 
     def get_system_prompt(self) -> str:
         return SYS_PROMPT_EN.strip()

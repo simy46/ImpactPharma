@@ -2,7 +2,7 @@ import json
 import logging
 import re
 from typing import Dict, Union
-from params import REG_EX
+from constants.script_consts import REG_EX
 
 logger = logging.getLogger(__name__)
 

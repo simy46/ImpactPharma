@@ -7,7 +7,7 @@ from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
-from params import PDF_DIR, TEMPLATE_PATH
+from constants.script_consts import PDF_DIR, TEMPLATE_PATH, METHODOLOGY_CATEGORY, OUTCOMES_CATEGORY, QUESTION_8, QUESTION_9
 
 lg = LogManager()
 pm = PromptManager()
@@ -36,18 +36,29 @@ for pdf_path in os.listdir(PDF_DIR):
     # ========== Process ==========
     responses_en = {}
     responses_fr = {}
+    context_for_outcomes = {}
+
     for category in pm.get_categories():
         lg.write("info", f"[CATEGORY] {category}")
 
         # --- Analyse EN ---
         system_prompt = pm.get_system_prompt()
-        user_prompt = pm.build_prompt(text, category)
+        if category == OUTCOMES_CATEGORY and context_for_outcomes:
+            user_prompt = pm.build_prompt(text, category, previous_answers=context_for_outcomes)
+        else:
+            user_prompt = pm.build_prompt(text, category)
+        print(user_prompt)
         tok_en = api._count_tokens(system_prompt, user_prompt)
         stats.add_tokens(tok_en)
 
         raw_en = api.ask(system_prompt=system_prompt, user_prompt=user_prompt, tokens_used=tok_en)
         lg.write("info", f"[EN] Raw: {raw_en}")
         parsed_en = rp.parse(raw_en)
+        if category == METHODOLOGY_CATEGORY:
+            if QUESTION_8 in parsed_en:
+                context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_9]
+            if QUESTION_9 in parsed_en:
+                context_for_outcomes[QUESTION_9] = parsed_en[QUESTION_9]
         responses_en.update(parsed_en)
 
         # --- Translates in FR ---
@@ -74,4 +85,3 @@ for pdf_path in os.listdir(PDF_DIR):
 stats.stop()
 lg.write("info", f"Tous les fichiers ont été traités : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
 lg.write("info", f"Statistiques \n{stats.summary()}")
- 
