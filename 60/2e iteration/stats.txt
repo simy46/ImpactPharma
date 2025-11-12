@@ -1,23 +1,23 @@
 --- STATISTICS ---
 Articles processed     : 4
-Total duration        : 38.81 min (38 min 48 s)
-Articles/minute       : 0.1
+Total duration        : 47.58 min (47 min 34 s)
+Articles/minute       : 0.08
 
-Total tokens used     : 233484
-Average tokens/article: 58371.0
-Tokens per minute     : 6016.57
-Tokens/article/minute : 1504.02
+Total tokens used     : 231634
+Average tokens/article: 57908.5
+Tokens per minute     : 4868.28
+Tokens/article/minute : 1217.08
 
 Model                 : gpt-5
 Token limit / minute  : 1000000
 
-Estimated total cost  : $1.40
+Estimated total cost  : $1.39
 Estimated cost/article: $0.35
-Total cost            : 
-Cost per article      : 
-Cost/article/lang     : 
+Total cost            : $0.83
+Cost per article      : $0.42
+Cost/article/lang     : $0.21
 
-    # ========================================
+# ========================================
     #         Model Configuration Summary     |
     # ========================================
     MODEL            = "gpt-5"   # main model used for reasoning and quality
