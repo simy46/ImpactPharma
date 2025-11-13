@@ -43,8 +43,6 @@ for pdf_path in os.listdir(PDF_DIR):
 
         # --- Analyse EN ---
         system_prompt = pm.get_system_prompt()
-        if category != OUTCOMES_CATEGORY and category != METHODOLOGY_CATEGORY:
-            continue
         user_prompt = pm.build_prompt(
             text,
             category,
