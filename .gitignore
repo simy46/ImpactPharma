@@ -7,3 +7,4 @@ pdfs_done
 pdfs_fonctionnels
 venv
 __pycache__
+*.pyc
