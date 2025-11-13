@@ -1,0 +1,37 @@
+Q7, 8 -> Q8 seulement
+- id: Q8
+  category: Methodology
+  question: >
+    What are the objectives of the study (both the primary and the secondary objectives)?
+    List them in the chronological order in which they appear.
+  type: yaml list in string
+  extra_specification: >
+    Keep the exact phrasing from the article.
+    If the article does not explicitly label objectives as primary or secondary,
+    classify them based on the order in which they appear:
+    the first objective(s) = Primary, the following = Secondary.
+    Add the status in brackets: "[Primary]" or "[Secondary]".
+    If the classification is not explicitly stated (inferred) add "[Chronological order]".
+
+
+Q16,17,18 -> Q15, 16
+- id: Q15
+  category: Outcomes
+  question: Describe all the outcomes of the study (primary and secondary). Indicate their status in brackets.
+  type: yaml list in string
+  extra_specification: >
+    Follow exactly the order and status ("[Primary]" or "[Secondary]") used in Q8.
+    Do not infer or reclassify outcomes.
+
+
+- id: Q16
+  category: Outcomes
+  question: What are the results for all outcomes (primary and secondary)? Indicate whether each result is statistically significant.
+  type: yaml list in string
+  extra_specification: >
+    Provide the results in the same order as in Q15.
+    Each item must follow exactly this structure:
+      - Description:
+      - Results:
+      - Significance: Yes / No / Not specified
+    Do not infer or reclassify outcomes.
