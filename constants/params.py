@@ -151,7 +151,7 @@ Minimal example:
   "Q2": "Not specified in the article",
   "Q3": "Option B",
   "Q4": "Improved progression-free survival [Interpreted data]",
-  "Q5": "Primary objective: evaluate overall survival [Chronological order]"
+  "Q5": "Primary objective: evaluate overall survival [Primary] [Chronological order]"
 }
 </OUTPUT_FORMAT>
 """

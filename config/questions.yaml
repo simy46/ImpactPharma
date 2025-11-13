@@ -3,10 +3,12 @@
   question: What is the year of publication of the study?
   type: date (YYYY)
 
+
 - id: Q2
   category: General Information
   question: From which country does the study originate?
   type: text
+
 
 - id: Q3
   category: General Information
@@ -21,6 +23,7 @@
   extra_specification: >
     If "Mixed" is selected, specify which healthcare settings are included (e.g., Hospital + Community pharmacy).
 
+
 - id: Q4
   category: General Information
   question: Is the study single-center or multicenter?
@@ -30,10 +33,12 @@
     - Multicenter
     - Not specified
 
+
 - id: Q5
   category: General Information
   question: What are the start and end dates of the study, and what is its duration?
   type: start date - end date (duration':' X ... )
+
 
 - id: Q6
   category: General Information
@@ -49,6 +54,7 @@
     - Expert opinion
     - Other
 
+
 - id: Q7
   category: Methodology
   question: What is the temporality of the study?
@@ -59,27 +65,29 @@
     - Cross-sectional
     - Other
 
+
 - id: Q8
   category: Methodology
-  question: What is the primary objective of the study?
-  type: text
-  extra_specification: >
-    When several primary objectives are mentioned, list them in chronological order as they appear in the article.
-
-- id: Q9
-  category: Methodology
-  question: List all secondary objectives of the study exactly as stated in the article.
+  question: >
+    What are the objectives of the study (both the primary and the secondary objectives)?
+    List them in the chronological order in which they appear.
   type: yaml list in string
   extra_specification: >
-    Maintain the chronological order as presented in the article.
+    Keep the exact phrasing from the article.
+    If the article does not explicitly label objectives as primary or secondary,
+    classify them based on the order in which they appear:
+    the first objective(s) = Primary, the following = Secondary.
+    Add the status in brackets: "[Primary]" or "[Secondary]".
+    If the classification is inferred (not explicitly stated), add "[Chronological order]".
 
 
-- id: Q10
+- id: Q9
   category: Methodology
   question: How many groups are being studied?
   type: number
 
-- id: Q11
+
+- id: Q10
   category: Methodology
   question: Is there a control group?
   type: choice
@@ -87,7 +95,8 @@
     - "Yes"
     - "No"
 
-- id: Q12
+
+- id: Q11
   category: Methodology
   question: How are the participants allocated?
   type: choice
@@ -96,17 +105,20 @@
     - Non-random
     - Quasi-random
 
-- id: Q13
+
+- id: Q12
   category: Methodology
   question: What are the inclusion criteria for participants?
   type: text
 
-- id: Q14
+
+- id: Q13
   category: Methodology
   question: What are the exclusion criteria for participants?
   type: text
 
-- id: Q15
+
+- id: Q14
   category: Methodology
   question: What is the blinding method used in the study?
   type: choice
@@ -115,37 +127,30 @@
     - Double-blind
     - No blinding
 
+
+- id: Q15
+  category: Outcomes
+  question: Describe all the outcomes of the study (primary and secondary). Indicate their status in brackets.
+  type: yaml list in string
+  extra_specification: >
+    Follow exactly the order and status ("[Primary]" or "[Secondary]") used in Q8.
+    Do not infer or reclassify outcomes.
+
+
 - id: Q16
   category: Outcomes
-  question: Describe the primary outcome.
-  type: text
+  question: What are the results for all outcomes (primary and secondary)? Indicate whether each result is statistically significant.
+  type: yaml list in string
+  extra_specification: >
+    Provide the results in the same order as in Q15.
+    Each item must follow exactly this structure:
+      - Description:
+      - Results:
+      - Significance: Yes / No / Not specified
+    Do not infer or reclassify outcomes.
+
 
 - id: Q17
-  category: Outcomes
-  question: What are the results for the primary outcome? Also clearly indicate whether these results are statistically significant.
-  type: yaml list in string
-  extra_specification: >
-    These results must correspond directly to the primary objective described in Q8.
-    Each item must follow exactly this structure:
-      - Description:
-      - Results:
-      - Significance: Yes / No / Not specified
-
-
-- id: Q18
-  category: Outcomes
-  question: Describe each secondary outcome one by one, specifying for each its description, results, and statistical significance.
-  type: yaml list in string
-  extra_specification: >
-    These outcomes must correspond directly to the secondary objectives listed in Q9, in the same order.
-    Each item must follow exactly this structure:
-      - Description:
-      - Results:
-      - Significance: Yes / No / Not specified
-
-
-
-- id: Q19
   category: Pharmaceutical Intervention
   question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of their actions starting with a verb)
   elements:
@@ -155,22 +160,26 @@
     - Each action must begin with a verb.
   type: text
 
-- id: Q20
+
+- id: Q18
   category: Pharmaceutical Intervention
   question: Where does the pharmaceutical intervention take place?
   type: text
 
-- id: Q21
+
+- id: Q19
   category: Pharmaceutical Intervention
   question: Who are the stakeholders involved in the intervention? (example':' nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
   type: text
 
-- id: Q22
+
+- id: Q20
   category: Pharmaceutical Intervention
   question: What is the duration of the intervention?
   type: start_date - end_date (duration':' X ... )
 
-- id: Q23
+
+- id: Q21
   category: Limitations
   question: What are the limitations (weaknesses) of the study as identified by the authors?
   type: yaml list in string

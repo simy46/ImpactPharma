@@ -43,10 +43,8 @@ class PromptManager:
 
         context_str = ""
         if previous_answers:
-            context_lines = ["Context from previous answers:"]
-            for qid, answer in previous_answers.items():
-                context_lines.append(f" - {qid}: {answer}")
-            context_str = "\n".join(context_lines) + "\n\n"
+            qid, answer = next(iter(previous_answers.items()))
+            context_str = f"Context from previous answers:\n {qid}: {answer}\n\n"
 
         formatted_questions = "\n".join(lines)
         prefix = "ARTICLE TEXT"

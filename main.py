@@ -43,10 +43,13 @@ for pdf_path in os.listdir(PDF_DIR):
 
         # --- Analyse EN ---
         system_prompt = pm.get_system_prompt()
-        if category == OUTCOMES_CATEGORY and context_for_outcomes:
-            user_prompt = pm.build_prompt(text, category, previous_answers=context_for_outcomes)
-        else:
-            user_prompt = pm.build_prompt(text, category)
+        if category != OUTCOMES_CATEGORY and category != METHODOLOGY_CATEGORY:
+            continue
+        user_prompt = pm.build_prompt(
+            text,
+            category,
+            previous_answers=context_for_outcomes if category == OUTCOMES_CATEGORY and context_for_outcomes else None
+        )
         print(user_prompt)
         tok_en = api._count_tokens(system_prompt, user_prompt)
         stats.add_tokens(tok_en)
@@ -54,11 +57,10 @@ for pdf_path in os.listdir(PDF_DIR):
         raw_en = api.ask(system_prompt=system_prompt, user_prompt=user_prompt, tokens_used=tok_en)
         lg.write("info", f"[EN] Raw: {raw_en}")
         parsed_en = rp.parse(raw_en)
-        if category == METHODOLOGY_CATEGORY:
-            if QUESTION_8 in parsed_en:
-                context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_8]
-            if QUESTION_9 in parsed_en:
-                context_for_outcomes[QUESTION_9] = parsed_en[QUESTION_9]
+
+        if category == METHODOLOGY_CATEGORY and QUESTION_8 in parsed_en:
+            context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_8]
+
         responses_en.update(parsed_en)
 
         # --- Translates in FR ---
