@@ -1,6 +1,6 @@
 - id: Q1
   category: General Information
-  question: What is the year of publication of the study?
+  question: What is the year of publication of the study? If multiple publication dates are provided (e.g., online first and print), choose the most recent one.
   type: date (YYYY)
 
 
