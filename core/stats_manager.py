@@ -72,9 +72,9 @@ class StatsManager:
             f"\n"
             f"Estimated total cost  : ${est_total_cost:.2f}\n"
             f"Estimated cost/article: ${est_cost_per_article:.2f}\n"
-            f"Total cost            : \n"
-            f"Cost per article      : \n"
-            f"Cost/article/lang     : "
+            f"Total cost            : $\n"
+            f"Cost per article      : $\n"
+            f"Cost/article/lang     : $"
         )
 
         model_info = f"""
