@@ -1,0 +1,30 @@
+--- STATISTICS ---
+Articles processed    : 32
+Total duration        : 318.45 min (318 min 27 s)
+Articles/minute       : 0.1
+
+Total tokens used     : 1779303
+Average tokens/article: 55603.22
+Tokens per minute     : 5587.37
+Tokens/article/minute : 174.61
+
+Model                 : gpt-5
+Token limit / minute  : 1000000
+
+Estimated total cost  : $10.68
+Estimated cost/article: $0.33
+Total cost            : $10.8
+Cost per article      : $0.34
+Cost/article/lang     : $0.17
+
+# ========================================
+#         Model Configuration Summary     |
+# ========================================
+MODEL            = "gpt-5"   # main model used for reasoning and quality
+MAX_TOKENS       = 12000   # max output tokens per request (EN)
+MAX_TOKENS_FR    = 2500   # max output tokens per request (FR)
+REASONING        = "high"   # reasoning level for GPT-5 (speed vs depth)
+REASONING_FR     = "low"   # reasoning level for French outputs
+TEXT             = "high"   # verbosity of English responses
+TEXT_FR          = "medium"   # verbosity of French responses
+SAFETY_MARGIN    = 0.95   # use only 95% of token quota for safety
