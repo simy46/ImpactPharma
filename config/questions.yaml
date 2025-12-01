@@ -80,6 +80,13 @@
     Add the status in brackets: "[Primary]" or "[Secondary]".
     If the classification is inferred (not explicitly stated), add "[Chronological order]".
 
+    IMPORTANT:
+    Objectives describe WHAT THE AUTHORS INTENDED TO EVALUATE.
+    They are intentions, not measured variables.
+    They must never contain concrete endpoints, metrics, or results.
+    Objectives and outcomes are fundamentally different concepts.
+    Do not reuse or paraphrase any outcomes when writing objectives.
+
 
 - id: Q9
   category: Methodology
@@ -134,7 +141,20 @@
   type: yaml list in string
   extra_specification: >
     Follow exactly the order and status ("[Primary]" or "[Secondary]") used in Q8.
-    Do not infer or reclassify outcomes.
+    
+    IMPORTANT:
+    Outcomes describe WHAT WAS ACTUALLY MEASURED in the study.
+    They must always come from the measurement sections (Methods/Results)
+    or from tables containing quantitative or qualitative endpoints.
+
+    Outcomes must:
+      - be concrete measurable variables or endpoints,
+      - NEVER reuse wording from objectives,
+      - NEVER describe intentions or study goals.
+
+    Under no circumstances should objectives and outcomes share the same phrasing.
+    Outcomes must reflect metrics (e.g., BP reduction, adherence score, mortality rate, lab values).
+
 
 
 - id: Q16

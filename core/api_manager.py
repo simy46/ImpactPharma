@@ -21,7 +21,7 @@ client = OpenAI(api_key=api_key)
 
 class OpenAIClient:
     def __init__(self, logger: LogManager):
-        self.logger: LogManager = logger
+        self.logger = logger
 
     def _count_tokens(self, prompt1, prompt2, model=TOKEN_COUNTER_MODEL) -> int:
         encoding = tiktoken.encoding_for_model(model)
@@ -35,11 +35,19 @@ class OpenAIClient:
         time.sleep(wait_time)
 
     @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(5))
-    def ask(self, system_prompt: str, user_prompt: str, tokens_used: int, lang: Optional[str] = None) -> str:
+    def ask(self, system_prompt: str, user_prompt: str, tokens_used: int,
+            lang: Optional[str] = None, retry_level: int = 0) -> str:
+
         try:
             reasoning = REASONING_FR if lang == "fr" else REASONING
             text = TEXT_FR if lang == "fr" else TEXT
-            max_tokens = MAX_TOKENS_FR if lang == "fr" else MAX_TOKENS
+            base_max_tokens = MAX_TOKENS_FR if lang == "fr" else MAX_TOKENS
+
+            # augmentation progressive → max +50%
+            max_tokens = int(base_max_tokens * (1 + 0.2 * retry_level))
+            max_tokens = min(max_tokens, 15000)
+
+            self.logger.write("info", f"Using max_tokens={max_tokens} (retry_level={retry_level})")
 
             total_tokens = tokens_used + max_tokens
             self._wait_for_token_quota(total_tokens)
@@ -56,20 +64,24 @@ class OpenAIClient:
             )
 
             if hasattr(response, "incomplete_details") and response.incomplete_details:
-                reason = response.incomplete_details.get("reason")
+                details = response.incomplete_details
+                reason = getattr(details, "reason", None)
+
                 if reason == "max_output_tokens":
-                    self.logger.write("warn", f"Réponse incomplète (max_output_tokens atteint). Relance avec plus de tokens...")
-                    if max_tokens < 15000:
-                        return self.ask(system_prompt, user_prompt, tokens_used, lang)
+                    if retry_level < 3:
+                        self.logger.write("warn", f"Réponse tronquée → relance avec +20% tokens")
+                        return self.ask(system_prompt, user_prompt, tokens_used,
+                                        lang=lang, retry_level=retry_level + 1)
                     else:
-                        self.logger.write("error", "Max tokens déjà au plafond (15000), arrêt.")
+                        self.logger.write("error", "Réponse encore tronquée après 3 tentatives.")
                         return '{"NA": "Non traité"}'
 
             answer = response.output_text
             if not answer:
-                self.logger.write("warn", "Réponse vide, dump brut...")
+                self.logger.write("warn", "Réponse vide ! Dump brut…")
                 self.logger.write("raw", response.model_dump_json(indent=2))
-                answer = '{"NA": "Non traité"}'
+                return '{"NA": "Non traité"}'
+
             return answer
 
         except OpenAIError as e:

@@ -48,7 +48,6 @@ for pdf_path in os.listdir(PDF_DIR):
             category,
             previous_answers=context_for_outcomes if category == OUTCOMES_CATEGORY and context_for_outcomes else None
         )
-        print(user_prompt)
         tok_en = api._count_tokens(system_prompt, user_prompt)
         stats.add_tokens(tok_en)
 
