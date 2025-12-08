@@ -45,7 +45,7 @@ class OpenAIClient:
 
             # augmentation progressive → max +50%
             max_tokens = int(base_max_tokens * (1 + 0.2 * retry_level))
-            max_tokens = min(max_tokens, 15000)
+            # max_tokens = min(max_tokens, 15000) # should i?
 
             self.logger.write("info", f"Using max_tokens={max_tokens} (retry_level={retry_level})")
 

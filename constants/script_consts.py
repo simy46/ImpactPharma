@@ -2,7 +2,7 @@
 ## DO NOT CHANGE ANY OF THESE CONSTS!!!!!!!!
 ## ===============================================================================================================
 
-PDF_DIR = "outcomes-pdfs"
+PDF_DIR = "pdfs"
 TEMPLATE_PATH = "outputs/template_resultats.xlsx"
 OUTPUT_DIR = "outputs"
 SCHEMA_PATH = "config/questions.yaml"
