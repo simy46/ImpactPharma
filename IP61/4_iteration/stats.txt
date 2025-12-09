@@ -14,8 +14,8 @@ Token limit / minute  : 1000000
 Estimated total cost  : $10.74
 Estimated cost/article: $0.34
 Total cost            : $11.56
-Cost per article      : $5.78
-Cost/article/lang     : $2,89
+Cost per article      : $0.36
+Cost/article/lang     : $0.18
 
 # ========================================
 #         Model Configuration Summary     |
