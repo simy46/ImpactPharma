@@ -2,22 +2,19 @@ from datetime import datetime
 import os
 from core.pdf_loader import PDFLoader
 from core.prompt_manager import PromptManager
-from core.api_manager import OpenAIClient, TOKENS_PER_MINUTE
+from core.api_manager import OpenAIClient
 from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
-
-PDF_DIR = "pdfs"
-TEMPLATE_PATH = "outputs/template_resultats.xlsx"
+from constants.script_consts import PDF_DIR, TEMPLATE_PATH, METHODOLOGY_CATEGORY, OUTCOMES_CATEGORY, QUESTION_8, QUESTION_9
 
 lg = LogManager()
-pm_fr = PromptManager("fr")
-pm_en = PromptManager("en")
+pm = PromptManager()
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
 writer = ExcelWriter(template_path=TEMPLATE_PATH)
-stats = StatsManager(model=api.model, token_limit=TOKENS_PER_MINUTE)  # on récupère le modèle utilisé
+stats = StatsManager()
 
 stats.start()
 lg.write("info", f"Début du traitement : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -36,43 +33,51 @@ for pdf_path in os.listdir(PDF_DIR):
         lg.write("error", f"Extraction échouée pour {pdf_name} : {e}")
         continue
 
-    # ========== version FR ==========
+    # ========== Process ==========
+    responses_en = {}
     responses_fr = {}
-    for category in pm_fr.get_categories():
-        lg.write("info", f"[FR] Catégorie : {category}")
-        system_fr = pm_fr.get_system_prompt()
-        prompt_fr = pm_fr.build_prompt(text, category)
-        tok = api._count_tokens(system_fr, prompt_fr)
-        stats.add_tokens(tok)
-        raw_fr = api.ask(system_fr, prompt_fr)
-        lg.write("info", f"Réponse brute FR : {raw_fr}")
+    context_for_outcomes = {}
+
+    for category in pm.get_categories():
+        lg.write("info", f"[CATEGORY] {category}")
+
+        # --- Analyse EN ---
+        system_prompt = pm.get_system_prompt()
+        user_prompt = pm.build_prompt(
+            text,
+            category,
+            previous_answers=context_for_outcomes if category == OUTCOMES_CATEGORY and context_for_outcomes else None
+        )
+        tok_en = api._count_tokens(system_prompt, user_prompt)
+        stats.add_tokens(tok_en)
+
+        raw_en = api.ask(system_prompt=system_prompt, user_prompt=user_prompt, tokens_used=tok_en)
+        lg.write("info", f"[EN] Raw: {raw_en}")
+        parsed_en = rp.parse(raw_en)
+
+        if category == METHODOLOGY_CATEGORY and QUESTION_8 in parsed_en:
+            context_for_outcomes[QUESTION_8] = parsed_en[QUESTION_8]
+
+        responses_en.update(parsed_en)
+
+        # --- Translates in FR ---
+        raw_json_en = rp.to_json_string(parsed_en)
+        print(raw_json_en)
+        system_prompt_fr = pm.translate_prompt()
+        tok_fr = api._count_tokens(system_prompt_fr, raw_json_en)
+        stats.add_tokens(tok_fr)
+        raw_fr = api.ask(system_prompt=system_prompt_fr, user_prompt=raw_json_en, tokens_used=tok_fr, lang="fr")
+        lg.write("info", f"[FR] Raw: {raw_fr}")
         parsed_fr = rp.parse(raw_fr)
         responses_fr.update(parsed_fr)
-
-    try:
-        writer.insert_row(pdf_name + " (FR)", responses_fr)
-        lg.write("info", f"[FR] Résultats ajoutés dans l'Excel pour {pdf_name}")
-    except Exception as e:
-        lg.write("error", f"[FR] Écriture Excel échouée pour {pdf_name} : {e}")
-
-    # ========== version EN ==========
-    responses_en = {}
-    for category in pm_en.get_categories():
-        lg.write("info", f"[EN] Category: {category}")
-        system_en = pm_en.get_system_prompt()
-        prompt_en = pm_en.build_prompt(text, category)
-
-        tok = api._count_tokens(system_en, prompt_en)
-        stats.add_tokens(tok)
-
-        raw_en = api.ask(system_en, prompt_en)
-        lg.write("info", f"Raw response EN: {raw_en}")
-        parsed_en = rp.parse(raw_en)
-        responses_en.update(parsed_en)
+            
 
     try:
         writer.insert_row(pdf_name + " (EN)", responses_en)
         lg.write("info", f"[EN] Results added to Excel for {pdf_name}")
+
+        writer.insert_row(pdf_name + " (FR)", responses_fr)
+        lg.write("info", f"[FR] Results added to Excel for {pdf_name}")
     except Exception as e:
         lg.write("error", f"[EN] Excel write failed for {pdf_name} : {e}")
 

@@ -3,9 +3,10 @@ from openpyxl import load_workbook, Workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from datetime import datetime
 import shutil
+from constants.script_consts import TEMPLATE_PATH, OUTPUT_DIR
 
 class ExcelWriter:
-    def __init__(self, template_path: str = "outputs/template_resultats.xlsx", output_dir: str = "outputs") -> None:
+    def __init__(self, template_path: str = TEMPLATE_PATH, output_dir: str = OUTPUT_DIR) -> None:
         if not os.path.exists(template_path):
             raise FileNotFoundError(f"Template Excel introuvable : {template_path}")
         

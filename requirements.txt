@@ -1,5 +1,5 @@
 pyyaml
-openai
+openai>=1.35.0
 tqdm
 tenacity
 python-dotenv

@@ -1,153 +1,205 @@
 - id: Q1
-  category: Informations générales
-  question: Quelle est l’année de publication de l’étude ?
-  type: date
+  category: General Information
+  question: What is the year of publication of the study? If multiple publication dates are provided (e.g., online first and print), choose the most recent one.
+  type: date (YYYY)
+
 
 - id: Q2
-  category: Informations générales
-  question: De quel pays provient l’étude ?
+  category: General Information
+  question: From which country does the study originate?
   type: text
+
 
 - id: Q3
-  category: Informations générales
-  question: Dans quel type de structure de soins l’étude a-t-elle été réalisée ?
+  category: General Information
+  question: In what type of healthcare setting was the study conducted?
   type: choice
   options:
-    - Hôpital
-    - Clinique externe
-    - Pharmacie communautaire
-    - Plusieurs des options ci-dessus (milieu mixte)
-    - Autre
+    - Hospital
+    - Outpatient clinic
+    - Community pharmacy
+    - Mixed (specify which of the above)
+    - Other
+  extra_specification: >
+    If "Mixed" is selected, specify which healthcare settings are included (e.g., Hospital + Community pharmacy).
+
 
 - id: Q4
-  category: Informations générales
-  question: Est-ce une étude monocentrique ou multicentrique ?
+  category: General Information
+  question: Is the study single-center or multicenter?
   type: choice
   options:
-    - Monocentrique
-    - Multicentrique
-    - Non précisé
+    - Single-center
+    - Multicenter
+    - Not specified
+
 
 - id: Q5
-  category: Informations générales
-  question: Quelles sont les dates de début et de fin de l’étude, et quelle est sa durée ?
-  type: text
+  category: General Information
+  question: What are the start and end dates of the study, and what is its duration?
+  type: start date - end date (duration':' X ... )
+
 
 - id: Q6
-  category: Informations générales
-  question: Quel est le devis (design) d’étude ?
+  category: General Information
+  question: What is the study design?
   type: choice
   options:
-    - Essai contrôlé randomisé
-    - Étude de cohorte
-    - Étude avant-après
-    - Étude observationnelle (sans intervention)
-    - Étude qualitative
-    - Enquête
-    - Avis d’expert
-    - Autre
+    - Randomized controlled trial
+    - Cohort study
+    - Before-after study
+    - Observational study (no intervention)
+    - Qualitative study
+    - Survey
+    - Expert opinion
+    - Other
+
 
 - id: Q7
-  category: Méthodologie
-  question: Quelle est la temporalité de l’étude ?
+  category: Methodology
+  question: What is the temporality of the study?
   type: choice
   options:
-    - Rétrospective
+    - Retrospective
     - Prospective
-    - Transversale
+    - Cross-sectional
+    - Other
+
 
 - id: Q8
-  category: Méthodologie
-  question: Quel est l’objectif principal (primaire) de l’étude ?
-  type: text
+  category: Methodology
+  question: >
+    What are the objectives of the study (both the primary and the secondary objectives)?
+    List them in the chronological order in which they appear.
+  type: yaml list in string
+  extra_specification: >
+    Keep the exact phrasing from the article.
+    If the article does not explicitly label objectives as primary or secondary,
+    classify them based on the order in which they appear:
+    the first objective(s) = Primary, the following = Secondary.
+    Add the status in brackets: "[Primary]" or "[Secondary]".
+    If the classification is inferred (not explicitly stated), add "[Chronological order]".
+
+    IMPORTANT:
+    Objectives describe WHAT THE AUTHORS INTENDED TO EVALUATE.
+    They are intentions, not measured variables.
+    They must never contain concrete endpoints, metrics, or results.
+    Objectives and outcomes are fundamentally different concepts.
+    Do not reuse or paraphrase any outcomes when writing objectives.
+
 
 - id: Q9
-  category: Méthodologie
-  question: Quels sont les objectifs secondaires (si clairement cités dans le texte) ?
-  type: text
-
-- id: Q10
-  category: Méthodologie
-  question: Combien de groupes sont à l’étude ?
+  category: Methodology
+  question: How many groups are being studied?
   type: number
 
-- id: Q11
-  category: Méthodologie
-  question: Est-ce qu’il y a un groupe contrôle ?
+
+- id: Q10
+  category: Methodology
+  question: Is there a control group?
   type: choice
   options:
-    - Oui
-    - Non
+    - "Yes"
+    - "No"
+
+
+- id: Q11
+  category: Methodology
+  question: How are the participants allocated?
+  type: choice
+  options:
+    - Random
+    - Non-random
+    - Quasi-random
+
 
 - id: Q12
-  category: Méthodologie
-  question: Comment sont répartis les participants ?
-  type: choice
-  options:
-    - Aléatoire
-    - Non aléatoire
-    - Quasi-aléatoire
+  category: Methodology
+  question: What are the inclusion criteria for participants?
+  type: text
+
 
 - id: Q13
-  category: Méthodologie
-  question: Quels sont les critères d’inclusion des participants ?
+  category: Methodology
+  question: What are the exclusion criteria for participants?
   type: text
+
 
 - id: Q14
-  category: Méthodologie
-  question: Quels sont les critères d’exclusion des participants ?
-  type: text
-
-- id: Q15
-  category: Méthodologie
-  question: Comment se déroule l’étude ?
+  category: Methodology
+  question: What is the blinding method used in the study?
   type: choice
   options:
-    - Insu simple (simple aveugle)
-    - Insu double
-    - Aucun insu
+    - Single-blind
+    - Double-blind
+    - No blinding
+
+
+- id: Q15
+  category: Outcomes
+  question: Describe all the outcomes of the study (primary and secondary). Indicate their status in brackets.
+  type: yaml list in string
+  extra_specification: >
+    Follow exactly the order and status ("[Primary]" or "[Secondary]") used in Q8.
+    
+    IMPORTANT:
+    Outcomes describe WHAT WAS ACTUALLY MEASURED in the study.
+    They must always come from the measurement sections (Methods/Results)
+    or from tables containing quantitative or qualitative endpoints.
+
+    Outcomes must:
+      - be concrete measurable variables or endpoints,
+      - NEVER reuse wording from objectives,
+      - NEVER describe intentions or study goals.
+
+    Under no circumstances should objectives and outcomes share the same phrasing.
+    Outcomes must reflect metrics (e.g., BP reduction, adherence score, mortality rate, lab values).
+
+
 
 - id: Q16
   category: Outcomes
-  question: Décrire le outcome (le paramètre) principal ?
-  type: text
+  question: What are the results for all outcomes (primary and secondary)? Indicate whether each result is statistically significant.
+  type: yaml list in string
+  extra_specification: >
+    Provide the results in the same order as in Q15.
+    Each item must follow exactly this structure:
+      - Description:
+      - Results:
+      - Significance: Yes / No / Not specified
+    Do not infer or reclassify outcomes.
+
 
 - id: Q17
-  category: Outcomes
-  question: Quel sont les résultats du outcome principal ? Ces résultats sont-ils statistiquement significatifs ?
+  category: Pharmaceutical Intervention
+  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of their actions starting with a verb)
+  elements:
+    - How is the intervention implemented?
+    - What concrete actions are carried out?
+    - In which actions or processes is the pharmacist involved?
+    - Each action must begin with a verb.
   type: text
+
 
 - id: Q18
-  category: Outcomes
-  question: Si présents, décrire le ou les outcome(s) secondaire(s) un par un (description, résultats, et significativité statistique)
+  category: Pharmaceutical Intervention
+  question: Where does the pharmaceutical intervention take place?
   type: text
+
 
 - id: Q19
-  category: Intervention pharmaceutique
-  question: Décrire l’intervention pharmaceutique (le rôle du pharmacien, décrire chacune de ses actions en débutant par un verbe)
-  elements:
-    - Comment l’intervention est-elle mise en œuvre ?
-    - Quelles actions concrètes sont menées ?
-    - Dans quelles actions ou processus le pharmacien est-il impliqué ?
-    - Chaque action doit commencer par un verbe.
+  category: Pharmaceutical Intervention
+  question: Who are the stakeholders involved in the intervention? (example':' nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
   type: text
+
 
 - id: Q20
-  category: Intervention pharmaceutique
-  question: Où se déroule l’intervention pharmaceutique ?
-  type: text
+  category: Pharmaceutical Intervention
+  question: What is the duration of the intervention?
+  type: start_date - end_date (duration':' X ... )
+
 
 - id: Q21
-  category: Intervention pharmaceutique
-  question: Quels sont les acteurs de l’intervention ? (exemple ':' infirmières, médecins spécialistes, techniciens en pharmacie, pharmaciens communautaires, pharmaciens cliniciens, etc)
-  type: text
-
-- id: Q22
-  category: Intervention pharmaceutique
-  question: Quelle est la durée de l’intervention ?
-  type: text
-
-- id: Q23
-  category: Limites
-  question: Quelles sont les limites (faiblesses) de l’étude identifiées par les auteurs ?
-  type: text
+  category: Limitations
+  question: What are the limitations (weaknesses) of the study as identified by the authors?
+  type: yaml list in string
