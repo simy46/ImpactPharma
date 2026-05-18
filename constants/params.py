@@ -5,7 +5,8 @@
 # gpt-5-mini → faster, cheaper, but less reliable.
 # gpt-5-nano → very fast, almost free, but very limited.
 # important that for this version we use gpt-5
-MODEL = "gpt-5"
+# gpt-5.5 for newer versions
+MODEL = "gpt-5.5-2026-04-23"
 
 
 
@@ -15,8 +16,8 @@ MODEL = "gpt-5"
 # Maximum number of tokens the model can generate for the response.
 # Too low  → risk of incomplete or empty answers (< 4000 is too low)
 # Higher   → slower responses and higher cost (>= 8000 is too high : too much time and $).
-MAX_TOKENS = 12_500
-MAX_TOKENS_FR = 3_000
+MAX_TOKENS = 25_000
+MAX_TOKENS_FR = 6_000
 # reasoning=high interval [5_000, 8_000] is recommended
 # reasoning=high interval [12_000, 15_500] is recommended
 
@@ -29,8 +30,8 @@ MAX_TOKENS_FR = 3_000
 # "medium" → balance of speed and quality.
 # "high"   → more rigorous, fewer hallucinations, but slower and more expensive.
 from openai.types.shared_params.reasoning import Reasoning
-REASONING = Reasoning(effort="high")
-REASONING_FR = Reasoning(effort="low")
+REASONING = Reasoning(effort="medium")
+REASONING_FR = Reasoning(effort="none")
 
 
 
@@ -41,8 +42,8 @@ REASONING_FR = Reasoning(effort="low")
 # "medium" → concise and structured.
 # "high"   → longer, more verbose answers.
 from openai.types.responses import ResponseTextConfigParam
-TEXT = ResponseTextConfigParam(verbosity="high")
-TEXT_FR = ResponseTextConfigParam(verbosity="medium")
+TEXT = ResponseTextConfigParam(verbosity="low")
+TEXT_FR = ResponseTextConfigParam(verbosity="low")
 
 
 
