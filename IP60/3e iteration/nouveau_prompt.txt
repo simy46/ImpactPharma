@@ -39,7 +39,7 @@ The final output must remain a structured JSON object.
 </TASK>
 
 <THINK>
-(Internal step -- DO NOT OUTPUT)
+(Internal step - DO NOT OUTPUT)
 For each question:
 1. Identify the exact sentence(s) in the article containing the relevant information.
 2. If multiple candidates exist, choose the one that best matches the literal wording of the question.
