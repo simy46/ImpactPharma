@@ -1,0 +1,11 @@
+# ========================================
+#         Model Configuration Summary
+# ========================================
+MODEL            = "gpt-5.5-2026-04-23"
+MAX_TOKENS       = 25000
+MAX_TOKENS_FR    = 6000
+REASONING        = "medium"
+REASONING_FR     = "none"
+TEXT             = "low"
+TEXT_FR          = "low"
+SAFETY_MARGIN    = 0.95
