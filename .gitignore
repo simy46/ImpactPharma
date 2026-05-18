@@ -5,7 +5,19 @@ tmp-res
 logs/*.log
 pdfs_done
 pdfs_fonctionnels
-venv
-__pycache__
-*.pyc
 .codex
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
