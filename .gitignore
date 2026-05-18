@@ -8,3 +8,4 @@ pdfs_fonctionnels
 venv
 __pycache__
 *.pyc
+.codex
