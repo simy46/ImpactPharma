@@ -8,6 +8,7 @@ from constants.params import (
     MAX_TOKENS_FR,
     REASONING,
     REASONING_FR,
+    SYS_PROMPT_EN,
     TEXT,
     TEXT_FR,
     SAFETY_MARGIN,
@@ -169,6 +170,11 @@ REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"
 TEXT             = "{TEXT.get('verbosity', 'unknown')}"
 TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"
 SAFETY_MARGIN    = {SAFETY_MARGIN}
+
+# ========================================
+#         English System Prompt
+# ========================================
+{SYS_PROMPT_EN.strip()}
 """.strip()
 
     def summary(self) -> str:
