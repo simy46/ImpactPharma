@@ -1,5 +1,5 @@
 from datetime import datetime
-from constants.params import COST_PER_TOKEN, MODEL, MAX_TOKENS, MAX_TOKENS_FR, REASONING, REASONING_FR, TEXT, TEXT_FR, SAFETY_MARGIN, TOKENS_PER_MINUTE
+from constants.params import MODEL, MAX_TOKENS, MAX_TOKENS_FR, REASONING, REASONING_FR, TEXT, TEXT_FR, SAFETY_MARGIN, TOKENS_PER_MINUTE
 
 
 class StatsManager:
@@ -53,9 +53,6 @@ class StatsManager:
         articles_per_minute = round(n_articles / stats['duration_min'], 2) if stats['duration_min'] else 0
         tokens_article_per_minute = round(stats['avg_tokens'] / stats['duration_min'], 2) if stats['duration_min'] else 0
 
-        est_total_cost = self.total_tokens * COST_PER_TOKEN
-        est_cost_per_article = est_total_cost / n_articles if n_articles else 0
-
         report = (
             f"--- STATISTICS ---\n"
             f"Articles processed     : {n_articles}\n"
@@ -70,8 +67,6 @@ class StatsManager:
             f"Model                 : {stats['model']}\n"
             f"Token limit / minute  : {stats['token_limit']}\n"
             f"\n"
-            f"Estimated total cost  : ${est_total_cost:.2f}\n"
-            f"Estimated cost/article: ${est_cost_per_article:.2f}\n"
             f"Total cost            : $\n"
             f"Cost per article      : $\n"
             f"Cost/article/lang     : $"
