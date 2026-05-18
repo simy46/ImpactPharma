@@ -65,7 +65,7 @@ python main.py
 
 After the script finishes, results will be saved in:
 
-- `/outputs/resultats_YYYYMMDD_HHMMSS.xlsx`            : Excel with all extracted answers  
+- `/results/IP63/<n>e iteration/resultats_YYYY-MM-DD_HHhMMminSSs.xlsx` : Excel with all extracted answers  
 - `/logs/pipeline_YYYYMMDD_HHMMSS.log`                 : detailed processing log for each PDF
 
 ---
@@ -74,7 +74,7 @@ After the script finishes, results will be saved in:
 
 - Don't edit the Excel file while the script is running.
 - If you have questions or errors, share the log file with the developer.
-- It will always write inside a new `/outputs/resultats_YYYYMMDD_HHMMSS.xlsx` with the date and time written on the name of the file.
+- Each run creates the next iteration folder inside `/results/IP63/` and writes the Excel file there.
 
 
 # Motivation
