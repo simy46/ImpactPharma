@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+from constants.general_consts import FR
 from core.pdf_loader import PDFLoader
 from core.prompt_manager import PromptManager
 from core.api_manager import OpenAIClient
@@ -66,7 +67,7 @@ for pdf_path in os.listdir(PDF_DIR):
         system_prompt_fr = pm.translate_prompt()
         tok_fr = api._count_tokens(system_prompt_fr, raw_json_en)
         stats.add_tokens(tok_fr)
-        raw_fr = api.ask(system_prompt=system_prompt_fr, user_prompt=raw_json_en, tokens_used=tok_fr, lang="fr")
+        raw_fr = api.ask(system_prompt=system_prompt_fr, user_prompt=raw_json_en, tokens_used=tok_fr, lang=FR)
         lg.write("info", f"[FR] Raw: {raw_fr}")
         parsed_fr = rp.parse(raw_fr)
         responses_fr.update(parsed_fr)
