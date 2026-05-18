@@ -62,7 +62,7 @@ TOKEN_COUNTER_MODEL = "gpt-4o"
 # ========================================
 # Maximum tokens per minute allowed by your OpenAI tier. Changes may occur, check link below!
 # information available at https://platform.openai.com/settings/organization/limits
-TOKENS_PER_MINUTE = 1_000_000
+TOKENS_PER_MINUTE = 2_000_000
 TOKENS_PER_SECOND = TOKENS_PER_MINUTE / 60
 
 # Safety margin → use only 95% of the quota to avoid hitting limits.
