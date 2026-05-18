@@ -114,7 +114,7 @@ class StatsManager:
             "cost_per_article_lang": self.cost_per_article_lang(),
         }
 
-    def summary(self) -> str:
+    def stats_report(self) -> str:
         stats = self.summary_dict()
         n_articles = stats["articles"]
 
@@ -135,7 +135,7 @@ class StatsManager:
             else 0
         )
 
-        report = (
+        return (
             f"--- STATISTICS ---\n"
             f"Articles processed          : {n_articles}\n"
             f"Total duration              : {stats['duration_min']} min ({duration_readable})\n"
@@ -156,7 +156,8 @@ class StatsManager:
             f"Real cost/article/lang      : {self._money(stats['cost_per_article_lang'])}"
         )
 
-        model_info = f"""
+    def model_report(self) -> str:
+        return f"""
 # ========================================
 #         Model Configuration Summary
 # ========================================
@@ -168,6 +169,7 @@ REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"
 TEXT             = "{TEXT.get('verbosity', 'unknown')}"
 TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"
 SAFETY_MARGIN    = {SAFETY_MARGIN}
-"""
+""".strip()
 
-        return f"{report}\n\n{model_info.strip()}"
+    def summary(self) -> str:
+        return f"{self.stats_report()}\n\n{self.model_report()}"

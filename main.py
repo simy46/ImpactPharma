@@ -60,6 +60,18 @@ def try_fetch_openai_cost(label: str, start_time: int) -> Optional[Decimal]:
         return None
 
 
+def write_run_metadata(output_dir: str, stats_report: str, model_report: str) -> None:
+    reports = {
+        "stats.txt": stats_report,
+        "model.txt": model_report,
+    }
+
+    for filename, content in reports.items():
+        path = os.path.join(output_dir, filename)
+        with open(path, "w", encoding="utf-8") as file:
+            file.write(content)
+
+
 def main():
     # Costs are optional. If this fails, the run should still continue.
     cost_window_start = unix_start_of_today_utc()
@@ -175,6 +187,10 @@ def main():
         f"Tous les fichiers ont été traités : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n",
     )
 
+    stats_report = stats.stats_report()
+    model_report = stats.model_report()
+
+    write_run_metadata(writer.output_dir, stats_report, model_report)
     lg.write("info", f"Statistiques \n{stats.summary()}")
 
 
