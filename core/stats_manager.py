@@ -1,89 +1,173 @@
 from datetime import datetime
-from constants.params import MODEL, MAX_TOKENS, MAX_TOKENS_FR, REASONING, REASONING_FR, TEXT, TEXT_FR, SAFETY_MARGIN, TOKENS_PER_MINUTE
+from decimal import Decimal
+from typing import Optional
+
+from constants.params import (
+    MODEL,
+    MAX_TOKENS,
+    MAX_TOKENS_FR,
+    REASONING,
+    REASONING_FR,
+    TEXT,
+    TEXT_FR,
+    SAFETY_MARGIN,
+    TOKENS_PER_MINUTE,
+)
 
 
 class StatsManager:
     def __init__(self, model: str = MODEL, token_limit: int = TOKENS_PER_MINUTE):
         self.model = model
         self.token_limit = token_limit
-        self.start_time: datetime | None = None
-        self.end_time: datetime | None = None
+
+        self.start_time: Optional[datetime] = None
+        self.end_time: Optional[datetime] = None
+
         self.article_count = 0
-        self.total_tokens = 0
+
+        # Used only for throughput/rate-limit reporting.
+        # It is NOT used for cost.
+        self.counted_tokens_for_rate_limit = 0
+
+        # Official OpenAI cost snapshots.
+        self.openai_cost_before: Optional[Decimal] = None
+        self.openai_cost_after: Optional[Decimal] = None
 
     def start(self):
         self.start_time = datetime.now()
+
+    def stop(self):
+        self.end_time = datetime.now()
 
     def add_article(self):
         self.article_count += 1
 
     def add_tokens(self, n: int):
-        self.total_tokens += n
+        self.counted_tokens_for_rate_limit += n
 
-    def stop(self):
-        self.end_time = datetime.now()
-    
+    def set_openai_cost_before(self, value: Optional[Decimal]):
+        self.openai_cost_before = value
+
+    def set_openai_cost_after(self, value: Optional[Decimal]):
+        self.openai_cost_after = value
+
+    def total_cost(self) -> Optional[Decimal]:
+        if self.openai_cost_before is None or self.openai_cost_after is None:
+            return None
+
+        return self.openai_cost_after - self.openai_cost_before
+
+    def cost_per_article(self) -> Optional[Decimal]:
+        total = self.total_cost()
+
+        if total is None or self.article_count == 0:
+            return None
+
+        return total / Decimal(self.article_count)
+
+    def cost_per_article_lang(self) -> Optional[Decimal]:
+        per_article = self.cost_per_article()
+
+        if per_article is None:
+            return None
+
+        return per_article / Decimal("2")
+
+    @staticmethod
+    def _money(value: Optional[Decimal]) -> str:
+        if value is None:
+            return "Unavailable"
+
+        return f"${value:.6f}"
+
     def summary_dict(self) -> dict:
         duration_min = (
             (self.end_time - self.start_time).total_seconds() / 60
-            if self.start_time and self.end_time else 0
+            if self.start_time and self.end_time
+            else 0
         )
-        avg_tokens = self.total_tokens / self.article_count if self.article_count else 0
-        tpm = self.total_tokens / duration_min if duration_min else 0
+
+        avg_tokens = (
+            self.counted_tokens_for_rate_limit / self.article_count
+            if self.article_count
+            else 0
+        )
+
+        tpm = (
+            self.counted_tokens_for_rate_limit / duration_min
+            if duration_min
+            else 0
+        )
+
         return {
             "articles": self.article_count,
             "duration_min": round(duration_min, 2),
-            "total_tokens": self.total_tokens,
+            "counted_tokens_for_rate_limit": self.counted_tokens_for_rate_limit,
             "avg_tokens": round(avg_tokens, 2),
             "tokens_per_min": round(tpm, 2),
             "model": self.model,
             "token_limit": self.token_limit,
+            "openai_cost_before": self.openai_cost_before,
+            "openai_cost_after": self.openai_cost_after,
+            "total_cost": self.total_cost(),
+            "cost_per_article": self.cost_per_article(),
+            "cost_per_article_lang": self.cost_per_article_lang(),
         }
 
     def summary(self) -> str:
-
         stats = self.summary_dict()
-        n_articles = stats['articles']
+        n_articles = stats["articles"]
 
-        duration_total_sec = stats['duration_min'] * 60
+        duration_total_sec = stats["duration_min"] * 60
         minutes = int(duration_total_sec // 60)
         seconds = int(duration_total_sec % 60)
         duration_readable = f"{minutes} min {seconds} s"
 
-        articles_per_minute = round(n_articles / stats['duration_min'], 2) if stats['duration_min'] else 0
-        tokens_article_per_minute = round(stats['avg_tokens'] / stats['duration_min'], 2) if stats['duration_min'] else 0
+        articles_per_minute = (
+            round(n_articles / stats["duration_min"], 2)
+            if stats["duration_min"]
+            else 0
+        )
+
+        tokens_article_per_minute = (
+            round(stats["avg_tokens"] / stats["duration_min"], 2)
+            if stats["duration_min"]
+            else 0
+        )
 
         report = (
             f"--- STATISTICS ---\n"
-            f"Articles processed     : {n_articles}\n"
-            f"Total duration        : {stats['duration_min']} min ({duration_readable})\n"
-            f"Articles/minute       : {articles_per_minute}\n"
+            f"Articles processed          : {n_articles}\n"
+            f"Total duration              : {stats['duration_min']} min ({duration_readable})\n"
+            f"Articles/minute             : {articles_per_minute}\n"
             f"\n"
-            f"Total tokens used     : {stats['total_tokens']}\n"
-            f"Average tokens/article: {stats['avg_tokens']}\n"
-            f"Tokens per minute     : {stats['tokens_per_min']}\n"
-            f"Tokens/article/minute : {tokens_article_per_minute}\n"
+            f"Tokens counted for quota    : {stats['counted_tokens_for_rate_limit']}\n"
+            f"Average tokens/article      : {stats['avg_tokens']}\n"
+            f"Tokens per minute           : {stats['tokens_per_min']}\n"
+            f"Tokens/article/minute       : {tokens_article_per_minute}\n"
             f"\n"
-            f"Model                 : {stats['model']}\n"
-            f"Token limit / minute  : {stats['token_limit']}\n"
+            f"Model                       : {stats['model']}\n"
+            f"Token limit / minute        : {stats['token_limit']}\n"
             f"\n"
-            f"Total cost            : $\n"
-            f"Cost per article      : $\n"
-            f"Cost/article/lang     : $"
+            f"OpenAI cost before          : {self._money(stats['openai_cost_before'])}\n"
+            f"OpenAI cost after           : {self._money(stats['openai_cost_after'])}\n"
+            f"Total real cost             : {self._money(stats['total_cost'])}\n"
+            f"Real cost/article           : {self._money(stats['cost_per_article'])}\n"
+            f"Real cost/article/lang      : {self._money(stats['cost_per_article_lang'])}"
         )
 
         model_info = f"""
-    # ========================================
-    #         Model Configuration Summary     |
-    # ========================================
-    MODEL            = "{MODEL}"   # main model used for reasoning and quality
-    MAX_TOKENS       = {MAX_TOKENS}   # max output tokens per request (EN)
-    MAX_TOKENS_FR    = {MAX_TOKENS_FR}   # max output tokens per request (FR)
-    REASONING        = "{REASONING.get('effort', 'unknown')}"   # reasoning level for GPT-5 (speed vs depth)
-    REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"   # reasoning level for French outputs
-    TEXT             = "{TEXT.get('verbosity', 'unknown')}"   # verbosity of English responses
-    TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"   # verbosity of French responses
-    SAFETY_MARGIN    = {SAFETY_MARGIN}   # use only 95% of token quota for safety
-    """
+# ========================================
+#         Model Configuration Summary
+# ========================================
+MODEL            = "{MODEL}"
+MAX_TOKENS       = {MAX_TOKENS}
+MAX_TOKENS_FR    = {MAX_TOKENS_FR}
+REASONING        = "{REASONING.get('effort', 'unknown')}"
+REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"
+TEXT             = "{TEXT.get('verbosity', 'unknown')}"
+TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"
+SAFETY_MARGIN    = {SAFETY_MARGIN}
+"""
 
         return f"{report}\n\n{model_info.strip()}"
