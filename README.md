@@ -65,6 +65,7 @@ python main.py
 
 After the script finishes, results will be saved in:
 
+- `/results/template_resultats.xlsx`                                  : Excel template used to create each run
 - `/results/IP63/<n>e iteration/resultats_YYYY-MM-DD_HHhMMminSSs.xlsx` : Excel with all extracted answers  
 - `/logs/pipeline_YYYYMMDD_HHMMSS.log`                 : detailed processing log for each PDF
 

@@ -5,10 +5,10 @@
 import os
 
 PDF_DIR = "pdfs"
-OUTPUT_DIR = "outputs"
-TEMPLATE_PATH = os.path.join(OUTPUT_DIR, "template_resultats.xlsx")
 RESULTS_DIR = "results"
 RESULTS_BATCH = "IP63"
+TEMPLATE_FILENAME = "template_resultats.xlsx"
+TEMPLATE_PATH = os.path.join(RESULTS_DIR, TEMPLATE_FILENAME)
 SCHEMA_PATH = "config/questions.yaml"
 REG_EX = r'("Q\d+"\s*:\s*")([^"]*)$'
 OPENAI_API_KEY = "OPENAI_API_KEY" # got ur ass

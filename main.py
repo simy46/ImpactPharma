@@ -7,13 +7,13 @@ from core.response_parser import ResponseParser
 from core.excel_writer import ExcelWriter
 from core.log_manager import LogManager
 from core.stats_manager import StatsManager
-from constants.script_consts import PDF_DIR, TEMPLATE_PATH, METHODOLOGY_CATEGORY, OUTCOMES_CATEGORY, QUESTION_8
+from constants.script_consts import PDF_DIR, METHODOLOGY_CATEGORY, OUTCOMES_CATEGORY, QUESTION_8
 
 lg = LogManager()
 pm = PromptManager()
 api = OpenAIClient(logger=lg)
 rp = ResponseParser()
-writer = ExcelWriter(template_path=TEMPLATE_PATH)
+writer = ExcelWriter()
 stats = StatsManager()
 
 stats.start()

@@ -6,10 +6,11 @@ import shutil
 from constants.script_consts import TEMPLATE_PATH, get_next_iteration_dir
 
 class ExcelWriter:
-    def __init__(self, template_path: str = TEMPLATE_PATH, output_dir: str | None = None) -> None:
+    def __init__(self, template_path: str = TEMPLATE_PATH) -> None:
         if not os.path.exists(template_path):
             raise FileNotFoundError(f"Template Excel introuvable : {template_path}")
-        self.output_dir = output_dir or get_next_iteration_dir()
+
+        self.output_dir = get_next_iteration_dir()
         os.makedirs(self.output_dir, exist_ok=True)
         timestamp = datetime.now().strftime("%Y-%m-%d_%Hh%Mmin%Ss")
         filename = f"resultats_{timestamp}.xlsx"
