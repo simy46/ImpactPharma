@@ -129,6 +129,9 @@ class StatsManager:
             if stats["duration_min"]
             else 0
         )
+        minutes_per_article = (
+            round(stats["duration_min"] / n_articles, 2) if n_articles else 0
+        )
 
         tokens_article_per_minute = (
             round(stats["avg_tokens"] / stats["duration_min"], 2)
@@ -141,6 +144,7 @@ class StatsManager:
             f"Articles processed          : {n_articles}\n"
             f"Total duration              : {stats['duration_min']} min ({duration_readable})\n"
             f"Articles/minute             : {articles_per_minute}\n"
+            f"Minute/article              : {minutes_per_article}\n"
             f"\n"
             f"Tokens counted for quota    : {stats['counted_tokens_for_rate_limit']}\n"
             f"Average tokens/article      : {stats['avg_tokens']}\n"
