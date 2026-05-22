@@ -1,14 +1,12 @@
 - id: Q1
   category: General Information
-  question: What is the year of publication of the study? If multiple publication dates are provided (e.g., online first and print), choose the most recent one.
-  type: date (YYYY)
-
+  question: Can you identify the year of publication of the study, taking the most recent year mentioned in the text if several dates are provided?
+  type: date YYYY
 
 - id: Q2
   category: General Information
   question: From which country does the study originate?
   type: text
-
 
 - id: Q3
   category: General Information
@@ -17,12 +15,9 @@
   options:
     - Hospital
     - Outpatient clinic
-    - Community pharmacy
-    - Mixed (specify which of the above)
+    - Community pharmacy  
+    - Mixed several of the above
     - Other
-  extra_specification: >
-    If "Mixed" is selected, specify which healthcare settings are included (e.g., Hospital + Community pharmacy).
-
 
 - id: Q4
   category: General Information
@@ -33,12 +28,10 @@
     - Multicenter
     - Not specified
 
-
 - id: Q5
   category: General Information
   question: What are the start and end dates of the study, and what is its duration?
-  type: start date - end date (duration':' X ... )
-
+  type: "start date - end date (duration: X ...)"
 
 - id: Q6
   category: General Information
@@ -48,12 +41,11 @@
     - Randomized controlled trial
     - Cohort study
     - Before-after study
-    - Observational study (no intervention)
+    - Observational study no intervention
     - Qualitative study
     - Survey
     - Expert opinion
     - Other
-
 
 - id: Q7
   category: Methodology
@@ -65,34 +57,15 @@
     - Cross-sectional
     - Other
 
-
 - id: Q8
   category: Methodology
-  question: >
-    What are the objectives of the study (both the primary and the secondary objectives)?
-    List them in the chronological order in which they appear.
-  type: yaml list in string
-  extra_specification: >
-    Keep the exact phrasing from the article.
-    If the article does not explicitly label objectives as primary or secondary,
-    classify them based on the order in which they appear:
-    the first objective(s) = Primary, the following = Secondary.
-    Add the status in brackets: "[Primary]" or "[Secondary]".
-    If the classification is inferred (not explicitly stated), add "[Chronological order]".
-
-    IMPORTANT:
-    Objectives describe WHAT THE AUTHORS INTENDED TO EVALUATE.
-    They are intentions, not measured variables.
-    They must never contain concrete endpoints, metrics, or results.
-    Objectives and outcomes are fundamentally different concepts.
-    Do not reuse or paraphrase any outcomes when writing objectives.
-
+  question: What are the objectives of the study, including the primary and secondary objectives?
+  type: text
 
 - id: Q9
   category: Methodology
   question: How many groups are being studied?
   type: number
-
 
 - id: Q10
   category: Methodology
@@ -101,7 +74,6 @@
   options:
     - "Yes"
     - "No"
-
 
 - id: Q11
   category: Methodology
@@ -112,18 +84,15 @@
     - Non-random
     - Quasi-random
 
-
 - id: Q12
   category: Methodology
   question: What are the inclusion criteria for participants?
   type: text
 
-
 - id: Q13
   category: Methodology
   question: What are the exclusion criteria for participants?
   type: text
-
 
 - id: Q14
   category: Methodology
@@ -134,72 +103,65 @@
     - Double-blind
     - No blinding
 
-
 - id: Q15
   category: Outcomes
-  question: Describe all the outcomes of the study (primary and secondary). Indicate their status in brackets.
-  type: yaml list in string
-  extra_specification: >
-    Follow exactly the order and status ("[Primary]" or "[Secondary]") used in Q8.
-    
-    IMPORTANT:
-    Outcomes describe WHAT WAS ACTUALLY MEASURED in the study.
-    They must always come from the measurement sections (Methods/Results)
-    or from tables containing quantitative or qualitative endpoints.
-
-    Outcomes must:
-      - be concrete measurable variables or endpoints,
-      - NEVER reuse wording from objectives,
-      - NEVER describe intentions or study goals.
-
-    Under no circumstances should objectives and outcomes share the same phrasing.
-    Outcomes must reflect metrics (e.g., BP reduction, adherence score, mortality rate, lab values).
-
-
+  question: Describe all the outcomes, primary and secondary. Be sure to indicate their status in brackets.
+  type: text
 
 - id: Q16
   category: Outcomes
-  question: What are the results for all outcomes (primary and secondary)? Indicate whether each result is statistically significant.
-  type: yaml list in string
-  extra_specification: >
-    Provide the results in the same order as in Q15.
-    Each item must follow exactly this structure:
+  question: >
+    What are the results for the outcomes, primary and secondary?
+    Also clearly indicate whether these results are statistically significant,
+    and link each parameter to the evaluation target: does it help evaluate a
+    structure, a process, or an outcome? Mapping of recorded parameters to the
+    category of indicators to which they belong: Is this a parameter that
+    measures adherence, morbidity, mortality, cost, errors, adverse effects,
+    satisfaction, or other factors?
+  type: |
+    yaml list in string. each item must follow exactly this structure:
       - Description:
-      - Results:
-      - Significance: Yes / No / Not specified
-    Do not infer or reclassify outcomes.
-
+        Results:
+        Significance: Yes / No / Not specified
+        Parameter:
+        marker category:
 
 - id: Q17
   category: Pharmaceutical Intervention
-  question: Describe the pharmaceutical intervention (the role of the pharmacist, describe each of their actions starting with a verb)
-  elements:
-    - How is the intervention implemented?
-    - What concrete actions are carried out?
-    - In which actions or processes is the pharmacist involved?
-    - Each action must begin with a verb.
+  question: >
+    Describe the pharmaceutical intervention, including the role of the pharmacist.
+    Describe each action starting with a verb. Include how the intervention is
+    implemented, what concrete actions are carried out, in which actions or
+    processes the pharmacist is involved, and make sure each action begins with a verb.
   type: text
-
 
 - id: Q18
   category: Pharmaceutical Intervention
   question: Where does the pharmaceutical intervention take place?
   type: text
 
-
 - id: Q19
   category: Pharmaceutical Intervention
-  question: Who are the stakeholders involved in the intervention? (example':' nurses, specialist doctors, pharmacy technicians, community pharmacists, clinical pharmacists, etc.)
+  question: >
+    Who are the stakeholders involved in the intervention?
+    Examples: nurses, specialist doctors, pharmacy technicians, community pharmacists,
+    clinical pharmacists, etc.
   type: text
-
 
 - id: Q20
   category: Pharmaceutical Intervention
   question: What is the duration of the intervention?
-  type: start_date - end_date (duration':' X ... )
-
+  type: "start date - end date (duration: X ...)"
 
 - id: Q21
   category: Limitations
-  question: What are the limitations (weaknesses) of the study as identified by the authors?
+  question: What are the limitations or weaknesses of the study as identified by the authors?
   type: yaml list in string
+
+- id: Q22
+  category: Tools
+  question: >
+    What tools are used in the articles to assess the various variables?
+    Examples: International Normalized Ratio, AMPLE Method, Medication Appropriateness Index.
+    Please mention them only if they are essential for measuring the primary outcome measures.
+  type: text

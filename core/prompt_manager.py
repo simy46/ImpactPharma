@@ -24,7 +24,6 @@ class PromptManager:
             qtype = q.get("type", "").strip()
             qopts = q.get("options", [])
             qelems = q.get("elements", [])
-            espec = q.get("extra_specification", "")
 
             type_hint = f" [Expected format: {qtype}]" if qtype else ""
             line = f"{qid}. {qtext}{type_hint}"
@@ -37,9 +36,6 @@ class PromptManager:
 
             for e in qelems:
                 lines.append(f"   - {e.strip()}")
-
-            if espec:
-                lines.append(f"   (Note: {espec.strip()})")
 
         context_str = ""
         if previous_answers:
