@@ -1,0 +1,18 @@
+--- STATISTICS ---
+Articles processed          : 6
+Total duration              : 9.92 min (9 min 55 s)
+Articles/minute             : 0.6
+
+Tokens counted for quota    : 247864
+Average tokens/article      : 41310.67
+Tokens per minute           : 24981.21
+Tokens/article/minute       : 4164.38
+
+Model                       : gpt-5.5-2026-04-23
+Token limit / minute        : 2000000
+
+OpenAI cost before          : $1.248516
+OpenAI cost after           : $2.234832
+Total real cost             : $0.986316
+Real cost/article           : $0.164386
+Real cost/article/lang      : $0.082193
