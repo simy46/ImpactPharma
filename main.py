@@ -95,7 +95,7 @@ def main():
 
         pdf_name = os.path.splitext(pdf_path)[0]
         stats.add_article()
-        lg.write("", f"\n\n------ {pdf_name} ------")
+        lg.logger.info(f"\n\n------ {pdf_name} ------")
 
         try:
             text = PDFLoader.extract_text(os.path.join(PDF_DIR, pdf_path))
