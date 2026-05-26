@@ -30,10 +30,14 @@ class ExcelWriter:
             if cell.value
         }
 
-    def insert_row(self, pdf_name: str, responses: dict[str, str]) -> None:
+    def _next_empty_row(self) -> int:
         next_row = 2  # starting after header
         while self.sheet.cell(row=next_row, column=1).value:
             next_row += 1
+        return next_row
+
+    def insert_row(self, pdf_name: str, responses: dict[str, str]) -> None:
+        next_row = self._next_empty_row()
 
         self.sheet.cell(row=next_row, column=1, value=pdf_name)
         self.sheet.cell(row=next_row, column=2, value=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -45,4 +49,9 @@ class ExcelWriter:
                     answer = "; ".join(str(item) for item in answer)
                 self.sheet.cell(row=next_row, column=col_idx, value=answer)
 
+        self.workbook.save(self.output_path)
+
+    def insert_blank_row(self) -> None:
+        next_row = self._next_empty_row()
+        self.sheet.cell(row=next_row, column=1, value="")
         self.workbook.save(self.output_path)

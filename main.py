@@ -165,6 +165,9 @@ def main():
             writer.insert_row(pdf_name + " (FR)", responses_fr)
             lg.write("info", f"[FR] Results added to Excel for {pdf_name}")
 
+            writer.insert_blank_row()
+            lg.write("info", f"Blank row added after {pdf_name}")
+
         except Exception as e:
             lg.write("error", f"Excel write failed for {pdf_name} : {e}")
 
