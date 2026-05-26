@@ -6,6 +6,8 @@ logs/*.log
 pdfs_done
 pdfs_fonctionnels
 .codex
+/pdfs
+/lib
 
 # Python
 venv/
