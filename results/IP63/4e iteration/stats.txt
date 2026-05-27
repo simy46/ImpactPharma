@@ -1,0 +1,26 @@
+--- RECOVERY STATISTICS ---
+Selected iteration          : 3
+Source log                  : logs/pipeline_2026-05-26_22-26-14.log
+Original run started at     : 2026-05-26 22:26:14
+Recovery duration           : 27.59 min
+
+Final articles planned      : 195
+Final language rows planned : 390
+Recovered complete articles : 181
+FR-only resumed articles    : 0
+Full API resumed articles   : 14
+Partial articles            : 0
+Skipped errors              : 0
+
+Recovered estimated input tokens : 15840019
+New estimated input tokens       : 983383
+Combined estimated input tokens  : 16823402
+
+Recovered real usage tokens : input=15855866, output=1101002, reasoning=614454, total=16956868
+New real usage tokens       : input=985063, output=79283, reasoning=44384, total=1064346
+Combined real usage tokens  : input=16840929, output=1180285, reasoning=658838, total=18021214
+
+Original cost before        : $0.000000
+Original cost after         : Unavailable
+Model                       : gpt-5.5-2026-04-23
+Token limit / minute        : 2000000

@@ -1,0 +1,13 @@
+--- RECOVERY REPORT ---
+Selected iteration : 3
+Source log         : logs/pipeline_2026-05-26_22-26-14.log
+
+Plan summary
+- Final articles       : 195
+- Final language rows  : 390
+- Recovered complete   : 181
+- FR-only API resume   : 0
+- Full API resume      : 14
+
+Skipped errors
+None
