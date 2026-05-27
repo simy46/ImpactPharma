@@ -55,6 +55,7 @@ class ResumeRunner:
                 )
                 break
 
+        self.writer.verify_persisted_articles(entry.article_name for entry in plan.entries)
         self.logger.write("info", "Recovery execution finished.")
 
     def _write_recovered_entry(self, entry: PlanEntry) -> None:
@@ -68,7 +69,7 @@ class ResumeRunner:
             partial=False,
         )
         self.stats.mark_recovered_article_complete()
-        self.logger.write("info", f"Recovered from log: {entry.article_name}")
+        self.logger.write("info", f"Recovered from log and verified: {entry.article_name}")
 
     def _run_fr_only_entry(
         self,
@@ -136,7 +137,7 @@ class ResumeRunner:
                     self.stats.mark_partial_article()
                 else:
                     self.stats.mark_fr_only_article_complete()
-                    self.logger.write("info", f"FR resumed from recovered EN: {entry.article_name}")
+                    self.logger.write("info", f"FR resumed from recovered EN and verified: {entry.article_name}")
 
     def _run_full_entry(
         self,
@@ -196,7 +197,7 @@ class ResumeRunner:
                     self.stats.mark_partial_article()
                 else:
                     self.stats.mark_full_article_complete()
-                    self.logger.write("info", f"Full article resumed: {entry.article_name}")
+                    self.logger.write("info", f"Full article resumed and verified: {entry.article_name}")
 
     def _run_en_category(
         self,
