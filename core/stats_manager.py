@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from decimal import Decimal
 from typing import Optional
@@ -25,31 +26,27 @@ class StatsManager:
         self.end_time: Optional[datetime] = None
 
         self.article_count = 0
-
-        # Used only for throughput/rate-limit reporting.
-        # It is NOT used for cost.
         self.counted_tokens_for_rate_limit = 0
 
-        # Official OpenAI cost snapshots.
         self.openai_cost_before: Optional[Decimal] = None
         self.openai_cost_after: Optional[Decimal] = None
 
-    def start(self):
+    def start(self) -> None:
         self.start_time = datetime.now()
 
-    def stop(self):
+    def stop(self) -> None:
         self.end_time = datetime.now()
 
-    def add_article(self):
+    def add_article(self) -> None:
         self.article_count += 1
 
-    def add_tokens(self, n: int):
+    def add_tokens(self, n: int) -> None:
         self.counted_tokens_for_rate_limit += n
 
-    def set_openai_cost_before(self, value: Optional[Decimal]):
+    def set_openai_cost_before(self, value: Optional[Decimal]) -> None:
         self.openai_cost_before = value
 
-    def set_openai_cost_after(self, value: Optional[Decimal]):
+    def set_openai_cost_after(self, value: Optional[Decimal]) -> None:
         self.openai_cost_after = value
 
     def total_cost(self) -> Optional[Decimal]:
@@ -81,6 +78,11 @@ class StatsManager:
 
         return f"${value:.6f}"
 
+    @staticmethod
+    def _dict_value(data: dict, key: str, fallback: str = "unknown") -> str:
+        value = data.get(key, fallback) if isinstance(data, dict) else fallback
+        return str(value)
+
     def summary_dict(self) -> dict:
         duration_min = (
             (self.end_time - self.start_time).total_seconds() / 60
@@ -94,7 +96,7 @@ class StatsManager:
             else 0
         )
 
-        tpm = (
+        tokens_per_minute = (
             self.counted_tokens_for_rate_limit / duration_min
             if duration_min
             else 0
@@ -105,7 +107,7 @@ class StatsManager:
             "duration_min": round(duration_min, 2),
             "counted_tokens_for_rate_limit": self.counted_tokens_for_rate_limit,
             "avg_tokens": round(avg_tokens, 2),
-            "tokens_per_min": round(tpm, 2),
+            "tokens_per_min": round(tokens_per_minute, 2),
             "model": self.model,
             "token_limit": self.token_limit,
             "openai_cost_before": self.openai_cost_before,
@@ -129,8 +131,11 @@ class StatsManager:
             if stats["duration_min"]
             else 0
         )
+
         minutes_per_article = (
-            round(stats["duration_min"] / n_articles, 2) if n_articles else 0
+            round(stats["duration_min"] / n_articles, 2)
+            if n_articles
+            else 0
         )
 
         tokens_article_per_minute = (
@@ -162,6 +167,11 @@ class StatsManager:
         )
 
     def model_report(self) -> str:
+        reasoning_effort = self._dict_value(REASONING, "effort")
+        reasoning_fr_effort = self._dict_value(REASONING_FR, "effort")
+        text_verbosity = self._dict_value(TEXT, "verbosity")
+        text_fr_verbosity = self._dict_value(TEXT_FR, "verbosity")
+
         return f"""
 # ========================================
 #         Model Configuration Summary
@@ -169,10 +179,10 @@ class StatsManager:
 MODEL            = "{MODEL}"
 MAX_TOKENS       = {MAX_TOKENS}
 MAX_TOKENS_FR    = {MAX_TOKENS_FR}
-REASONING        = "{REASONING.get('effort', 'unknown')}"
-REASONING_FR     = "{REASONING_FR.get('effort', 'unknown')}"
-TEXT             = "{TEXT.get('verbosity', 'unknown')}"
-TEXT_FR          = "{TEXT_FR.get('verbosity', 'unknown')}"
+REASONING        = "{reasoning_effort}"
+REASONING_FR     = "{reasoning_fr_effort}"
+TEXT             = "{text_verbosity}"
+TEXT_FR          = "{text_fr_verbosity}"
 SAFETY_MARGIN    = {SAFETY_MARGIN}
 
 # ========================================
@@ -180,6 +190,18 @@ SAFETY_MARGIN    = {SAFETY_MARGIN}
 # ========================================
 {SYS_PROMPT_EN.strip()}
 """.strip()
+
+    def write_reports(self, output_dir: str) -> None:
+        reports = {
+            "stats.txt": self.stats_report(),
+            "model.txt": self.model_report(),
+        }
+
+        for filename, content in reports.items():
+            path = os.path.join(output_dir, filename)
+
+            with open(path, "w", encoding="utf-8") as file:
+                file.write(content)
 
     def summary(self) -> str:
         return f"{self.stats_report()}\n\n{self.model_report()}"

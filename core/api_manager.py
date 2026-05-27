@@ -6,15 +6,17 @@ from typing import Optional
 
 import tiktoken
 from dotenv import load_dotenv
-from openai import (
-    OpenAI,
-    OpenAIError,
-)
+from openai import OpenAI, OpenAIError
 from openai.types.shared_params.reasoning import Reasoning
 
-from constants.api_consts import MAX_OUTPUT_TOKEN_CAP_EN, MAX_OUTPUT_TOKEN_CAP_FR, MAX_RETRY_LEVEL, RETRYABLE_ERRORS, TOKEN_MULTIPLIERS
+from constants.api_consts import (
+    MAX_OUTPUT_TOKEN_CAP_EN,
+    MAX_OUTPUT_TOKEN_CAP_FR,
+    MAX_RETRY_LEVEL,
+    RETRYABLE_ERRORS,
+    TOKEN_MULTIPLIERS,
+)
 from constants.general_consts import FR
-from core.log_manager import LogManager
 from constants.params import (
     MODEL,
     MAX_TOKENS,
@@ -28,40 +30,64 @@ from constants.params import (
     TOKENS_PER_SECOND,
 )
 from constants.script_consts import OPENAI_API_KEY
+from core.log_manager import LogManager
+
 
 load_dotenv()
+
+
+class OpenAIQuotaExceeded(RuntimeError):
+    pass
+
 
 class OpenAIClient:
     def __init__(self, logger: LogManager):
         self.logger = logger
 
         self.api_key = os.getenv(OPENAI_API_KEY)
+
         if not self.api_key:
-            raise RuntimeError(f"Missing OpenAI API key. Check env variable: {OPENAI_API_KEY}")
-        
+            raise RuntimeError(
+                f"Missing OpenAI API key. Check env variable: {OPENAI_API_KEY}"
+            )
+
         self.client = OpenAI(
             api_key=self.api_key,
             timeout=180,
-            max_retries=0,  # we handle retries ourselves
+            max_retries=0,
         )
 
-    def _count_tokens(self, prompt1: str, prompt2: str, model: str = TOKEN_COUNTER_MODEL) -> int:
+    def _count_tokens(
+        self,
+        prompt1: str,
+        prompt2: str,
+        model: str = TOKEN_COUNTER_MODEL,
+    ) -> int:
         encoding = tiktoken.encoding_for_model(model)
         count = len(encoding.encode(prompt1)) + len(encoding.encode(prompt2))
+
         self.logger.write("token", f"Estimated input tokens: {count}")
+
         return count
 
     def _wait_for_token_quota(self, tokens_needed: int) -> None:
+        if tokens_needed <= 0:
+            return
+
         wait_time = (tokens_needed / TOKENS_PER_SECOND) / SAFETY_MARGIN
 
         if wait_time <= 0:
             return
 
-        self.logger.write("wait", f"Waiting {wait_time:.2f}s to respect token quota.")
+        self.logger.write(
+            "wait",
+            f"Waiting {wait_time:.2f}s to respect token quota.",
+        )
         time.sleep(wait_time)
 
     def _sleep_before_retry(self, retry_level: int) -> None:
-        wait_time = min(60, (2 ** retry_level) + random.uniform(0, 1.5))
+        wait_time = min(60, (2**retry_level) + random.uniform(0, 1.5))
+
         self.logger.write("wait", f"Retrying after {wait_time:.2f}s.")
         time.sleep(wait_time)
 
@@ -69,18 +95,19 @@ class OpenAIClient:
         base = MAX_TOKENS_FR if lang == FR else MAX_TOKENS
         cap = MAX_OUTPUT_TOKEN_CAP_FR if lang == FR else MAX_OUTPUT_TOKEN_CAP_EN
 
-        multiplier = TOKEN_MULTIPLIERS[min(retry_level, len(TOKEN_MULTIPLIERS) - 1)]
+        multiplier = TOKEN_MULTIPLIERS[
+            min(retry_level, len(TOKEN_MULTIPLIERS) - 1)
+        ]
+
         return min(int(base * multiplier), cap)
 
     def _get_reasoning(self, lang: Optional[str], retry_level: int):
         if lang == FR:
-            # translation should stay cheap and literal.
             return REASONING_FR
 
         if retry_level == 0:
             return REASONING
 
-        # only increase reasoning if the first extraction failed/truncated.
         return Reasoning(effort="high")
 
     def _get_text_config(self, lang: Optional[str]):
@@ -128,8 +155,31 @@ class OpenAIClient:
         try:
             json.loads(answer)
             return True
+
         except Exception:
             return False
+
+    def _is_insufficient_quota_error(self, error: Exception) -> bool:
+        body = getattr(error, "body", None)
+
+        if isinstance(body, dict):
+            error_data = body.get("error", {})
+
+            if isinstance(error_data, dict):
+                return error_data.get("code") == "insufficient_quota"
+
+        return "insufficient_quota" in str(error)
+
+    def _build_retry_instruction(self, retry_level: int) -> str:
+        if retry_level == 0:
+            return ""
+
+        return (
+            "\n\nIMPORTANT RETRY INSTRUCTION:\n"
+            "The previous attempt was incomplete, empty, or invalid. "
+            "Return exactly one complete valid JSON object. "
+            "Do not include markdown. Do not include explanations."
+        )
 
     def ask(
         self,
@@ -139,7 +189,6 @@ class OpenAIClient:
         lang: Optional[str] = None,
         expect_json: bool = True,
     ) -> str:
-
         last_error = None
 
         for retry_level in range(MAX_RETRY_LEVEL + 1):
@@ -160,20 +209,16 @@ class OpenAIClient:
                 total_tokens = tokens_used + max_tokens
                 self._wait_for_token_quota(total_tokens)
 
-                retry_instruction = ""
-                if retry_level > 0:
-                    retry_instruction = (
-                        "\n\nIMPORTANT RETRY INSTRUCTION:\n"
-                        "The previous attempt was incomplete, empty, or invalid. "
-                        "Return exactly one complete valid JSON object. "
-                        "Do not include markdown. Do not include explanations."
-                    )
+                retry_instruction = self._build_retry_instruction(retry_level)
 
                 response = self.client.responses.create(
                     model=MODEL,
                     input=[
                         {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt + retry_instruction},
+                        {
+                            "role": "user",
+                            "content": user_prompt + retry_instruction,
+                        },
                     ],
                     reasoning=reasoning,
                     text=text,
@@ -188,7 +233,10 @@ class OpenAIClient:
                 if status == "incomplete" or incomplete_reason:
                     self.logger.write(
                         "warn",
-                        f"Incomplete response | status={status}, reason={incomplete_reason}",
+                        (
+                            f"Incomplete response | status={status}, "
+                            f"reason={incomplete_reason}"
+                        ),
                     )
 
                     if incomplete_reason == "content_filter":
@@ -230,6 +278,12 @@ class OpenAIClient:
 
             except RETRYABLE_ERRORS as e:
                 last_error = e
+
+                if self._is_insufficient_quota_error(e):
+                    raise OpenAIQuotaExceeded(
+                        "OpenAI quota exhausted. Check billing, credits, or project usage limits."
+                    ) from e
+
                 self.logger.write(
                     "warn",
                     f"Retryable OpenAI error at retry_level={retry_level}: {e}",
@@ -243,6 +297,11 @@ class OpenAIClient:
                 raise
 
             except OpenAIError as e:
+                if self._is_insufficient_quota_error(e):
+                    raise OpenAIQuotaExceeded(
+                        "OpenAI quota exhausted. Check billing, credits, or project usage limits."
+                    ) from e
+
                 self.logger.write("error", f"Non-retryable OpenAI error: {e}")
                 raise
 

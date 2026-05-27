@@ -1,32 +1,50 @@
-import os
 import logging
+import os
 from datetime import datetime
+
 
 LOG_DIR = "logs"
 os.makedirs(LOG_DIR, exist_ok=True)
 
-def get_timestamped_log_file():
+
+def get_timestamped_log_file() -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     return os.path.join(LOG_DIR, f"pipeline_{timestamp}.log")
+
 
 class LogManager:
     def __init__(self, name: str = "pipeline"):
         self.log_path = get_timestamped_log_file()
+
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.DEBUG)
         self.logger.propagate = False
 
-        if not self.logger.handlers:
-            formatter = logging.Formatter("%(message)s")
+        self._reset_handlers()
+        self._configure_handlers()
 
-            file_handler = logging.FileHandler(self.log_path, mode='a', encoding='utf-8')
-            file_handler.setFormatter(formatter)
+    def _reset_handlers(self) -> None:
+        for handler in list(self.logger.handlers):
+            self.logger.removeHandler(handler)
+            handler.close()
 
-            stream_handler = logging.StreamHandler()
-            stream_handler.setFormatter(formatter)
+    def _configure_handlers(self) -> None:
+        formatter = logging.Formatter("%(message)s")
 
-            self.logger.addHandler(file_handler)
-            self.logger.addHandler(stream_handler)
+        file_handler = logging.FileHandler(
+            self.log_path,
+            mode="a",
+            encoding="utf-8",
+        )
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.DEBUG)
+
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+        stream_handler.setLevel(logging.INFO)
+
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(stream_handler)
 
     def write(self, type_: str, message: str) -> None:
         level_map = {
@@ -34,8 +52,10 @@ class LogManager:
             "success": self.logger.info,
             "token": self.logger.debug,
             "wait": self.logger.debug,
+            "raw": self.logger.debug,
             "warn": self.logger.warning,
             "error": self.logger.error,
         }
+
         log_func = level_map.get(type_.lower(), self.logger.info)
         log_func(f"[{type_.upper()}] {message}")
