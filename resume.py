@@ -33,6 +33,7 @@ planner = RecoveryPlanner(
 plan = planner.build(snapshot=snapshot)
 
 writer = RecoveredExcelWriter()
+
 stats = RecoveredStats(
     selection=selection,
     snapshot=snapshot,
@@ -53,9 +54,15 @@ runner = ResumeRunner(
     stats=stats,
 )
 
-runner.run(plan)
+try:
+    runner.run(plan)
 
-stats.write_reports(writer.output_dir)
+    writer.verify_persisted_articles(
+        entry.article_name for entry in plan.entries
+    )
+
+finally:
+    stats.write_reports(writer.output_dir)
 
 logger.write("info", f"Recovered Excel written to: {writer.output_path}")
 logger.write("info", f"Recovery stats written to: {writer.output_dir}")
